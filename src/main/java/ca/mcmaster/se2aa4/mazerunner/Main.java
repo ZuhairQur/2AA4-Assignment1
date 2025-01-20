@@ -21,11 +21,12 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
         logger.info("** Starting Maze Runner");
-        logger.info("HELLO");
         
         try {
 
             CommandLine command = parser.parse(options, args);
+            
+            logger.info("**** Computing path");
 
             if (command.hasOption("i")) {
                 logger.info("**** Reading the maze from file " + args[1]);
@@ -43,13 +44,16 @@ public class Main {
                 }
                 reader.close();
             }
+
+            else {
+                logger.info("Please enter a valid command.");
+            }
         } catch(Exception e) {
             System.out.println("HI");
             logger.error("/!\\ An error has occured /!\\");
         }
 
-        logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
+        logger.warn("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
     }
 }
