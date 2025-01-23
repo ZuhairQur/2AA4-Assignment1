@@ -23,7 +23,7 @@ public class FreeWalker extends Walker {
             this.instructions.append("F");
         }
 
-        return this.instructions.toString();
+        return "Path taken to exit maze: " + InstructionCleaner.getFactoredInstructions(this.instructions.toString());
 
     }
 }

@@ -26,6 +26,7 @@ public class InputHandler {
     private Options options;
     private char[][] contents;
     private CommandLine command;
+    private String instructions;
     private final CommandLineParser parser;
     private static final Logger logger = LogManager.getLogger();
 
@@ -80,15 +81,20 @@ public class InputHandler {
                     lineCount++;
                     mazeText.append("\n");;
                 }
-                this.reader.close();
 
                 logger.info(mazeText.insert(0, "\n").toString());
+
+                if (this.command.hasOption("p")) {
+                    this.instructions = this.command.getOptionValue("p");
+                }
+
+                this.reader.close();
             }
 
             else {
                 logger.warn("Please enter a valid command.");
             }
-            
+
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
@@ -96,8 +102,8 @@ public class InputHandler {
         return this.contents;
     }    
 
-    public boolean hasInstructionFlag() {
-        return this.command.hasOption("p");
+    public String getInstructions() {
+        return this.instructions;
     }
 
 

@@ -23,7 +23,7 @@ public class InstructionCleaner {
         .append(unfactoredInstructions
         .replaceAll("\\s+",""))
         .append(" ");
-        
+
         StringBuilder factoredInstructions = new StringBuilder("");
         
 
@@ -45,16 +45,39 @@ public class InstructionCleaner {
                 
                 factoredInstructions
                 .append(currentInstruction)
-                .append(" ");
+                .append("");
             }
         }
 
         return factoredInstructions.toString();
     }
 
-    public String getUnfactoredInstructions() {
+    public static String getUnfactoredInstructions(String factoredInstructions) {
         // will be filled in with the opposite process of getFactoredInstructions
-        return null;
+        StringBuilder trimmedInstructions = new StringBuilder();
+        StringBuilder unfactoredInstructions = new StringBuilder();
+
+        // removing all whitespace, except single space at the end
+        trimmedInstructions
+        .append(factoredInstructions
+        .replaceAll("\\s+",""));
+
+        for (int i = 0; i < trimmedInstructions.length(); i++) {
+            char currentInstruction = trimmedInstructions.charAt(i);
+
+            if (Character.isDigit(currentInstruction)) {
+                for (int j = 0; j < Character.getNumericValue(currentInstruction); j++) {
+                    unfactoredInstructions.append("F");
+                }
+                i += 1;
+            } else {
+                unfactoredInstructions.append(currentInstruction);
+            }
+
+            unfactoredInstructions.append("");
+        }
+        
+        return unfactoredInstructions.toString();
     }
 
 }

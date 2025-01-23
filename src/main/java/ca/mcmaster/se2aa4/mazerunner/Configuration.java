@@ -13,11 +13,11 @@ public class Configuration {
     private Maze maze;
     private Walker walker;
     private char [][] contents;
-    private boolean hasInstructionFlag;
+    private String userInstructions;
 
-    public Configuration(char [][] contents, boolean hasInstructionFlag) {
+    public Configuration(char [][] contents, String userInstructions) {
         this.contents = contents;
-        this.hasInstructionFlag = hasInstructionFlag;
+        this.userInstructions = userInstructions;
         this.configureMaze();
         this.configureWalker();
     }
@@ -42,7 +42,11 @@ public class Configuration {
             startDirection = 2;
         }
 
-        this.walker = new FreeWalker(maze.getStartCoords(), startDirection);
+        if (this.userInstructions != null) {
+            this.walker = new InstructedWalker(maze.getStartCoords(), startDirection, InstructionCleaner.getUnfactoredInstructions(this.userInstructions));
+        } else {
+            this.walker = new FreeWalker(maze.getStartCoords(), startDirection);
+        }
     }
 
     public Walker getConfiguredWalker() {

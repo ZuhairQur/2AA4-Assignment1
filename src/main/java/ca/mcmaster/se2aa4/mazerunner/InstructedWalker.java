@@ -19,8 +19,17 @@ public class InstructedWalker extends Walker {
     @Override
     public String walk(Maze maze) {
         // Move according to instructions ... fill in later
-        this.move();
-        return null;
+        
+        System.out.println("Instructions: " + this.instructions + ".");
+        for (int i = 0; i < this.instructions.length(); i++) {
+            this.move();
+        }
+
+        if (WalkStatus.hasEscaped(this, maze)) {
+            return "Using the instructions you gave, you have successfully escaped the maze!";
+        }
+
+        return "You were unable to escape the maze using the instructions you provided.";
     }
 
 }

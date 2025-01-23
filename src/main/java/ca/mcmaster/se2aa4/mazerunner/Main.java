@@ -21,16 +21,15 @@ public class Main {
         logger.info("** Starting Maze Runner");
         char[][] contents = inputHandler.readInput(args);
 
-
-        Configuration configuration = new Configuration(contents, inputHandler.hasInstructionFlag());
+        Configuration configuration = new Configuration(contents, inputHandler.getInstructions());
         Walker walker = configuration.getConfiguredWalker();
         Maze maze = configuration.getConfiguredMaze();
         
-        String path = InstructionCleaner.getFactoredInstructions(walker.walk(maze));
+        String walkingResults = walker.walk(maze);
         
-        logger.info("Shortest path: " + path);
+        logger.info(walkingResults);
         logger.info("** End of MazeRunner");
-
+        // System.out.println(inputHandler.getInstructions());
 
     }
 }
