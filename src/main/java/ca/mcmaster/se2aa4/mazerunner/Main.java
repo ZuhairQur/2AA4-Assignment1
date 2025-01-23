@@ -29,7 +29,6 @@ public class Main {
         
         logger.info(walkingResults);
         logger.info("** End of MazeRunner");
-        // System.out.println(inputHandler.getInstructions());
 
     }
 }
