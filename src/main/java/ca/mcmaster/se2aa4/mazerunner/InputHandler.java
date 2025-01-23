@@ -1,3 +1,12 @@
+/**
+ * File: InputHandler.java
+ * Author: Zuhair Qureshi
+ * Description: Defines the InputHandler class for the Maze Runner Application.
+ * Responsible for parsing command-line arguments, reading and processing maze data 
+ * from an input file, handling command-line options for specifying maze files and optional instructions.
+ * Also provides methods to retrieve parsed input data and check for instruction flags.
+ **/
+
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.BufferedReader;
@@ -45,15 +54,16 @@ public class InputHandler {
 
                 this.reader = new BufferedReader(new FileReader(filename));
                 String line;
+                StringBuilder mazeText = new StringBuilder("");
                 while ((line = this.reader.readLine()) != null) {
                     this.contents[lineCount] = line.toCharArray();
                     
 
                     for (int idx = 0; idx < line.length(); idx++) {
                         if (line.charAt(idx) == '#') {
-                            System.out.print("WALL ");
+                            mazeText.append("WALL ");
                         } else if (line.charAt(idx) == ' ') {
-                            System.out.print("PASS ");
+                            mazeText.append("PASS ");
                         }
                     }
 
@@ -61,21 +71,24 @@ public class InputHandler {
                     if (line.length() == 0) {
                         String emptyLine = "";
                         for (int i = 0; i < contents[0].length; i++) {
-                            System.out.print("PASS ");
+                            mazeText.append("PASS ");
                             emptyLine += " ";
                         }
                         this.contents[lineCount] = emptyLine.toCharArray();
                     }
 
                     lineCount++;
-                    System.out.print(System.lineSeparator());
+                    mazeText.append("\n");;
                 }
                 this.reader.close();
+
+                logger.info(mazeText.insert(0, "\n").toString());
             }
 
             else {
                 logger.warn("Please enter a valid command.");
             }
+            
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }

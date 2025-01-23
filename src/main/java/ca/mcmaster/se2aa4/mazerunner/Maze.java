@@ -1,3 +1,14 @@
+/**
+ * File: Maze.java
+ * Author: Zuhair Qureshi
+ * Description: This class represents the maze structure, including its layout and
+ * key coordinates such as start and end points. Its responsibilities include:
+ * storing the maze structure as a 2D character array, identifying and setting 
+ * the starting and ending coordinates of the maze dynamically, and providing methods 
+ * to retrieve specific blocks and key coordinates within the maze.
+ */
+
+
 package ca.mcmaster.se2aa4.mazerunner;
 
 
@@ -15,11 +26,6 @@ public class Maze {
     }
 
     public void setStartEndCoords() {
-
-        // BETTER TO HARD CODE FOR THE 
-        // MINIMAL VIABLE PRODUCT 
-        // I.E. JUST SET START COORD TO RIGHT END
-        // AND END COORD TO LEFT END
 
         int [] rightOpening = new int[2];
         int [] leftOpening = new int[2];

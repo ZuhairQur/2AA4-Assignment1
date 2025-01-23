@@ -1,12 +1,10 @@
 /**
  * File: Main.java
  * Author: Zuhair Qureshi
- * Description: Reads in maze from file and displays
- * to standard output via Apache logger.
+ * Description: Main file that controls Maze Runner Application.
+ * Holds the main method with the main logic and flow of the program.
  **/
 package ca.mcmaster.se2aa4.mazerunner;
-
-import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,16 +15,22 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Collecting user input and command line arguments
         InputHandler inputHandler = new InputHandler();
         inputHandler.setOptions();
         logger.info("** Starting Maze Runner");
         char[][] contents = inputHandler.readInput(args);
-        logger.info("Shortest path: FFFF");
+
+
+        Configuration configuration = new Configuration(contents, inputHandler.hasInstructionFlag());
+        Walker walker = configuration.getConfiguredWalker();
+        Maze maze = configuration.getConfiguredMaze();
+        
+        String path = InstructionCleaner.getFactoredInstructions(walker.walk(maze));
+        
+        logger.info("Shortest path: " + path);
         logger.info("** End of MazeRunner");
 
-        System.out.println(Arrays.deepToString(contents));
-        Maze maze = new Maze(contents);
-        maze.setStartEndCoords();
 
     }
 }
