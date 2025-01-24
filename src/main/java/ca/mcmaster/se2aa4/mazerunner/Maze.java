@@ -21,27 +21,51 @@ public class Maze {
         this.maze = maze;
     }
 
+    /**
+     * Retrieves the block at the specified coordinates (x, y) from the maze without
+     * modifying the maze at all. This method is used by the walker to plan the
+     * next move.
+     * 
+     * @param x the row number of the block to retrieve
+     * @param y the column number of the block to retrieve
+     * @return the block at the specified coordinates
+     */
     public char peakBlock(int x, int y) {
-        return (char) maze[x][y];
+        return maze[x][y];
     }
+
+    
+/**
+ * Sets the starting and ending coordinates of the maze based on its layout.
+ * 
+ * This method scans the first and last columns of the maze to identify openings
+ * (represented by spaces) that serve as potential entry and exit points. It assigns
+ * these coordinates to the start and end positions. The start and end coordinates
+ * are randomly assigned between these identified openings to simulate different
+ * entry and exit scenarios.
+ */
 
     public void setStartEndCoords() {
 
+        // Preparing start and end coordinates
         int [] rightOpening = new int[2];
         int [] leftOpening = new int[2];
 
+        // Identifying the opening in the first and last columns
         for (int i = 0; i < maze.length; i++) {
+            
             if (maze[i][0] == ' ') {
-                rightOpening[0] = i;
-                rightOpening[1] = 0;
+                leftOpening[0] = i;
+                leftOpening[1] = 0;
             }
 
             if (maze[i][maze[0].length - 1] == ' ') {
-                leftOpening[0] = i;
-                leftOpening[1] = maze[0].length - 1;
+                rightOpening[0] = i;
+                rightOpening[1] = maze[0].length - 1;
             }
         }
         
+        // Randomly assigning each opening to start and end
         this.startCoords = leftOpening;
         this.endCoords = rightOpening;
 
@@ -51,9 +75,21 @@ public class Maze {
         }
     }
 
+    /**
+     * Retrieves the starting coordinates of the maze.
+     * 
+     * @return an array containing the row and column indices of the start position
+     */
+
     public int[] getStartCoords() {
         return this.startCoords;
     }
+
+    /**
+     * Retrieves the ending coordinates of the maze.
+     * 
+     * @return an array containing the row and column indices of the end position
+     */
 
     public int[] getEndCoords() {
         return this.endCoords;

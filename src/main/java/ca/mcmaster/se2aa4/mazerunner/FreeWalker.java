@@ -10,11 +10,22 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class FreeWalker extends Walker {
 
-    private StringBuilder instructions = new StringBuilder("");
+    private final StringBuilder instructions = new StringBuilder();
     
     public FreeWalker(int[] coords, int direction) {
         super(coords, direction);
     }
+
+/**
+ * This method moves the walker through the maze, appending
+ * the instruction each time a move is made, until the walker escapes
+ * the maze. Right hand algorithm will be used. It records the path 
+ * taken and returns a factored instruction string representing 
+ * the sequence of movements.
+ *
+ * @param maze the maze to be navigated
+ * @return a string representing the factored path taken to exit the maze
+ */
 
     @Override
     public String walk(Maze maze) {

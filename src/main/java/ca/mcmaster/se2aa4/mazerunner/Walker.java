@@ -22,18 +22,35 @@ public abstract class Walker {
         this.direction = direction;
     }
 
+    /**
+     * Retrieves the current coordinates of the walker in the maze.
+     * @return an array of two integers, with the first and second elements being the row and the
+     * column numbers, respectively.
+     */
     public int[] getCoords() {
         return this.coords;
     }
 
+    /**
+     * Changes the walker's direction to the one on its left
+     * by rotating the direction counterclockwise according to the directions array.
+     */
     public void turnLeft() {
         this.direction = (this.direction + 3) % 4;
     }
 
+    /**
+     * Changes the walker's direction to the one on its right by
+     * rotating the direction clockwise according to the directions array.
+     */
     public void turnRight() {
         this.direction = (this.direction + 1) % 4;
     }
 
+    /**
+     * Moves the walker one block in the current direction.
+     * This method should be called after the walker has confirmed that it is not hitting a wall.
+     */
     public void move() {
         this.coords[0] += this.directions[this.direction][0];
         this.coords[1] += this.directions[this.direction][1];
