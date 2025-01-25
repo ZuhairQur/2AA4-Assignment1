@@ -16,9 +16,12 @@ public class Maze {
     private final char[][] maze;
     private int [] startCoords = new int [2];
     private int [] endCoords = new int[2];
+    private final boolean entryOnRight;
 
     public Maze(char [][] maze) {
         this.maze = maze;
+        this.entryOnRight = Math.random() < 0.5;
+        
     }
 
     /**
@@ -35,17 +38,17 @@ public class Maze {
     }
 
     
-/**
- * Sets the starting and ending coordinates of the maze based on its layout.
- * 
- * This method scans the first and last columns of the maze to identify openings
- * (represented by spaces) that serve as potential entry and exit points. It assigns
- * these coordinates to the start and end positions. The start and end coordinates
- * are randomly assigned between these identified openings to simulate different
- * entry and exit scenarios.
- */
+    /**
+     * Sets the starting and ending coordinates of the maze based on its layout.
+     * 
+     * This method scans the first and last columns of the maze to identify openings
+     * (represented by spaces) that serve as potential entry and exit points. It assigns
+     * these coordinates to the start and end positions. The start and end coordinates
+     * are randomly assigned between these identified openings to simulate different
+     * entry and exit scenarios.
+     */
 
-    public void setStartEndCoords() {
+    public void initializeStartEndCoords() {
 
         // Preparing start and end coordinates
         int [] rightOpening = new int[2];
@@ -59,19 +62,22 @@ public class Maze {
                 leftOpening[1] = 0;
             }
 
-            if (maze[i][maze[0].length - 1] == ' ') {
+            if (maze[i][maze[i].length - 1] == ' ') {
                 rightOpening[0] = i;
                 rightOpening[1] = maze[0].length - 1;
             }
         }
         
         // Randomly assigning each opening to start and end
-        this.startCoords = leftOpening;
-        this.endCoords = rightOpening;
-
-        if (Math.random() < 0.5) {
+        
+        if (this.entryOnRight) {
             this.startCoords = rightOpening;
             this.endCoords = leftOpening;
+        }
+        
+        else {
+            this.startCoords = leftOpening;
+            this.endCoords = rightOpening;
         }
     }
 
@@ -93,6 +99,20 @@ public class Maze {
 
     public int[] getEndCoords() {
         return this.endCoords;
+    }
+
+    /**
+     * Swaps the start and end coordinates of the maze. This method is used
+     * by the InstructedWalker when it needs to attempt to navigate the maze
+     * from the other opening. It is called after the walker has failed to
+     * escape the maze from the original entry.
+     */
+    public void swapEntryExit() {
+        int [] holdCoords = {this.startCoords[0], this.startCoords[1]};
+        this.startCoords[0] = this.endCoords[0];
+        this.startCoords[1] = this.endCoords[1];
+        this.endCoords[0] = holdCoords[0];
+        this.endCoords[1] = holdCoords[1];
     }
     
 }

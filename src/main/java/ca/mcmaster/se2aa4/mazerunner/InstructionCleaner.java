@@ -16,7 +16,7 @@ public class InstructionCleaner {
     
 
     /**
-     * Compresses a string of walking instructions by grouping consecutive 'F' instructions.
+     * Factors a string of walking instructions by grouping consecutive 'F' instructions.
      * 
      * This method removes all whitespace from the input string, and then 
      * processes the instructions to factor sequences of 'F' instructions.
@@ -30,7 +30,7 @@ public class InstructionCleaner {
     public static String getFactoredInstructions(String unfactoredInstructions) {
         StringBuilder trimmedInstructions = new StringBuilder();
         
-        // removing all whitespace, except single space at the end
+        // removing all whitespace, except padding space at the end
         trimmedInstructions
         .append(unfactoredInstructions
         .replaceAll("\\s+",""))
@@ -89,12 +89,14 @@ public class InstructionCleaner {
 
         for (int i = 0; i < trimmedInstructions.length() - 1; i++) {
             char currentInstruction = trimmedInstructions.charAt(i);
+            char nextInstruction = trimmedInstructions.charAt(i+1);
 
-            if (Character.isDigit(currentInstruction) && trimmedInstructions.charAt(i+1) == 'F') {
+            // Unfactoring the instruction based on factor provided
+            if (Character.isDigit(currentInstruction) && Character.isAlphabetic(nextInstruction)) {
                 for (int j = 0; j < Character.getNumericValue(currentInstruction); j++) {
-                    unfactoredInstructions.append("F");
+                    unfactoredInstructions.append(nextInstruction);
                 }
-                i += 1;
+                i += 1; // skip the next instruction, as it has already been processed
             } else {
                 unfactoredInstructions.append(currentInstruction);
             }

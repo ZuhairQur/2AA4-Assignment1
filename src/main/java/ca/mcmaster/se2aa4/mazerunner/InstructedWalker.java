@@ -10,10 +10,12 @@ package ca.mcmaster.se2aa4.mazerunner;
 public class InstructedWalker extends Walker {
 
     private final String instructions;
+    private boolean attemptedBothEnds;
 
-    public InstructedWalker(int [] coords, int direction, String instructions) {
-        super(coords, direction);
+    public InstructedWalker(int [] coords, int direction, WalkStatus walkStatus, String instructions) {
+        super(coords, direction, walkStatus);
         this.instructions = instructions;
+        this.attemptedBothEnds = false;
     }
 
     /**
@@ -28,7 +30,6 @@ public class InstructedWalker extends Walker {
      */
     @Override
     public String walk(Maze maze) {
-
         for (int i = 0; i < this.instructions.length(); i++) {
             char currentInstruction = this.instructions.charAt(i);
 
@@ -50,12 +51,34 @@ public class InstructedWalker extends Walker {
             }
             
             
-            if (WalkStatus.hasEscaped(this, maze)) {
+            if (this.walkStatus.hasEscaped(this, maze)) {
                 return "correct path";
             }
         }
 
+        if (!this.attemptedBothEnds) {
+            this.attemptFromOtherSide(maze);
+        }
+
         return "incorrect path";
+        
+    }
+
+    /**
+     * Attempts to walk the maze from the other opening after failing to do so from 
+     * the original entry. Sets the walker's coordinates to the end of the maze, 
+     * swaps the start and end points of the maze, flips the walker's entry 
+     * direction, and marks that the walker has attempted both ends.
+     * @param maze the maze to be navigated
+     */
+    public void attemptFromOtherSide(Maze maze) {
+        this.coords[0] = maze.getEndCoords()[0];
+        this.coords[1] = maze.getEndCoords()[1];
+        maze.swapEntryExit();
+        this.direction = (this.getEntryDirection() + 2) % 4; // change direction to opposite of entry direction (e.g. East if West, West if East)
+        this.attemptedBothEnds = true;
+        
+        this.walk(maze);
     }
 
 }

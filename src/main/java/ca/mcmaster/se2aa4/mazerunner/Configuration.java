@@ -10,26 +10,16 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Configuration {
-    private Maze maze;
+    private final Maze maze;
     private Walker walker;
-    private final char [][] contents;
-    private String userInstructions;
+    private final WalkStatus walkingStatus;
+    private final String userInstructions;
 
     public Configuration(char [][] contents, String userInstructions) {
-        this.contents = contents;
         this.userInstructions = userInstructions;
-        this.configureMaze();
-        this.configureWalker();
-    }
-
-    /**
-     * Sets up the maze from the input data. Instantiates a new Maze object with the
-     * input data and dynamically sets the start and end coordinates of the maze 
-     * according to its layout.
-     */
-    private void configureMaze() {
         this.maze = new Maze(contents);
-        this.maze.setStartEndCoords();
+        this.walkingStatus = new WalkStatus();
+        
     }
 
     /**
@@ -37,20 +27,23 @@ public class Configuration {
      * @return the configured maze object
      */
     public Maze getConfiguredMaze() {
+        this.maze.initializeStartEndCoords();
         return this.maze;
     }
 
-    
     /**
-     * Sets up the walker from the input data. Instantiates a new walker object based on whether
-     * instructions were provided. If instructions were provided, a new InstructedWalker object is
-     * created with the unfactored instruction string and the start coordinates of the maze.
-     * Otherwise, a new FreeWalker object is created with the start coordinates of the maze.
+     * Returns the configured walker object. If instructions were provided, the walker is configured
+     * to follow the instructions. Otherwise, the walker is configured to navigate the maze freely.
+     * The walker's direction is determined by the start column of the maze: if the column is 0, the
+     * walker faces right; if the column is non-zero, the walker faces left.
+     * @return the configured walker object
      */
-    private void configureWalker() {
+    public Walker getConfiguredWalker() {
 
-        int startColumn = maze.getStartCoords()[1];
+        int [] walkerStartCoords = {maze.getStartCoords()[0], maze.getStartCoords()[1]};
+        int startColumn = walkerStartCoords[1];
         int startDirection;
+
 
         // Start direction is 0 for facing right, 2 for left
         // If the start column is 0, start facing right. Otherwise, start facing left
@@ -62,22 +55,13 @@ public class Configuration {
             startDirection = 2;
         }
 
+        this.walker = new FreeWalker(walkerStartCoords, startDirection, this.walkingStatus);
+
         if (this.userInstructions != null) {
-            this.userInstructions = InstructionCleaner.getUnfactoredInstructions(this.userInstructions);
-            this.walker = new InstructedWalker(maze.getStartCoords(), startDirection, this.userInstructions);
-        } else {
-            this.walker = new FreeWalker(maze.getStartCoords(), startDirection);
+            this.walker = new InstructedWalker(walkerStartCoords, startDirection,  this.walkingStatus, this.userInstructions);
         }
-    }
 
-    /**
-     * Returns the configured walker object.
-     * 
-     * @return the configured Walker object, either an InstructedWalker or FreeWalker
-     *         depending on whether instructions were provided.
-     */
-
-    public Walker getConfiguredWalker() {
         return this.walker;
+         
     }
 }

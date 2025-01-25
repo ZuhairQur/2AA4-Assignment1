@@ -14,9 +14,9 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
 /**
- * The main method that drives the Maze Runner Application.
+ * The method that drives the Maze Runner Application.
  *
- * This method centralizes the application by directing: processing of command-line arguments,
+ * Centralizes the application by directing: processing of command-line arguments,
  * reading of maze data, configuration of the maze and walker, and walker
  * navigation through the maze. The results of the navigation are logged.
  *
@@ -31,21 +31,21 @@ public class Main {
         inputHandler.setOptions();
         logger.info("** Starting Maze Runner");
 
+        // Setting up walking skeleton and executing
         try {
             char[][] contents = inputHandler.readInput(args);
             Configuration configuration = new Configuration(contents, inputHandler.getInstructions());
-            Walker walker = configuration.getConfiguredWalker();
             Maze maze = configuration.getConfiguredMaze();
-            
+            Walker walker = configuration.getConfiguredWalker();
             String walkingResults = walker.walk(maze);
-            
             logger.info(walkingResults);
-            logger.info("** End of MazeRunner");
         } catch (Exception e) {
-            logger.error("Did not receive valid input. Exiting program.");
+            logger.info("**** Computing path");
+            logger.error("/!\\ An error has occured /!\\");
+            logger.error(e.getMessage());
+            logger.error("PATH NOT COMPUTED");
         }
 
-
-
+        logger.info("** End of MazeRunner");
     }
 }

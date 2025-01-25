@@ -12,14 +12,17 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public abstract class Walker {
     
-
     protected int[] coords = new int[2];
     protected int direction;
+    private final int entryDirection;
     protected final int [][] directions = {{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
+    protected WalkStatus walkStatus;
 
-    public Walker(int [] coords, int direction) {
+    public Walker(int [] coords, int direction, WalkStatus walkStatus) {
         this.coords = coords;
         this.direction = direction;
+        this.entryDirection = direction;
+        this.walkStatus = walkStatus;
     }
 
     /**
@@ -32,10 +35,19 @@ public abstract class Walker {
     }
 
     /**
+     * Retrieves the direction the walker was facing when it entered the maze.
+     * This is useful to track when attempting to walk from the other opening.
+     * @return the direction the walker faced when it started walking the maze
+     */
+    public int getEntryDirection() {
+        return this.entryDirection;
+    }
+
+    /**
      * Changes the walker's direction to the one on its left
      * by rotating the direction counterclockwise according to the directions array.
      */
-    public void turnLeft() {
+    protected void turnLeft() {
         this.direction = (this.direction + 3) % 4;
     }
 
@@ -43,7 +55,7 @@ public abstract class Walker {
      * Changes the walker's direction to the one on its right by
      * rotating the direction clockwise according to the directions array.
      */
-    public void turnRight() {
+    protected void turnRight() {
         this.direction = (this.direction + 1) % 4;
     }
 
