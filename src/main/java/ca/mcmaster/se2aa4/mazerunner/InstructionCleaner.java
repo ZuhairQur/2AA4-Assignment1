@@ -99,7 +99,7 @@ public class InstructionCleaner {
                 i += 1; // skip the next instruction, as it has already been processed
             } else {
                 unfactoredInstructions.append(currentInstruction);
-            }
+            } 
         }
         
         return unfactoredInstructions.toString();

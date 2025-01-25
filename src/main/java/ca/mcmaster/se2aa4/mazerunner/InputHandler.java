@@ -130,7 +130,7 @@ public class InputHandler {
             }
 
             lineNumber++;
-            mazeText.append("\n");
+            mazeText.append("\n"); 
         }
 
         this.reader.close();
