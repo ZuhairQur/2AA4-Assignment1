@@ -42,18 +42,9 @@ public class Configuration {
 
         int [] walkerStartCoords = {maze.getStartCoords()[0], maze.getStartCoords()[1]};
         int startColumn = walkerStartCoords[1];
-        int startDirection;
-
-
-        // Start direction is 0 for facing right, 2 for left
-        // If the start column is 0, start facing right. Otherwise, start facing left
-        // CODE SMELL. This should be refactored with Enum (see lecture January 23).
-
-        if (startColumn == 0) {
-            startDirection = 0;
-        } else {
-            startDirection = 2;
-        }
+        
+        Direction startDirection = Direction.RIGHT;
+        startDirection = startDirection.getStartDirection(startColumn);
 
         this.walker = new FreeWalker(walkerStartCoords, startDirection, this.walkingStatus);
 

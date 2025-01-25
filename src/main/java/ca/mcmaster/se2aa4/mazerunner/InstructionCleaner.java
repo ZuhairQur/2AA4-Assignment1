@@ -100,8 +100,6 @@ public class InstructionCleaner {
             } else {
                 unfactoredInstructions.append(currentInstruction);
             }
-
-            unfactoredInstructions.append("");
         }
         
         return unfactoredInstructions.toString();

@@ -71,10 +71,6 @@ public class InputHandler {
 
             logger.info("**** Reading the maze from file " + filename);
 
-            if (!filename.equals("./examples/straight.maz.txt")) {
-                throw new Exception("This maze is not supported.");
-            }
-
             Path path = Path.of(filename);
             int totalLineCount = (int) Files.lines(path).count();     
             this.contents = new char[totalLineCount][];

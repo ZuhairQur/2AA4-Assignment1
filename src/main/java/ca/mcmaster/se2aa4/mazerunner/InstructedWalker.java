@@ -12,7 +12,7 @@ public class InstructedWalker extends Walker {
     private final String instructions;
     private boolean attemptedBothEnds;
 
-    public InstructedWalker(int [] coords, int direction, WalkStatus walkStatus, String instructions) {
+    public InstructedWalker(int [] coords, Direction direction, WalkStatus walkStatus, String instructions) {
         super(coords, direction, walkStatus);
         this.instructions = instructions;
         this.attemptedBothEnds = false;
@@ -25,60 +25,60 @@ public class InstructedWalker extends Walker {
      * If the walker is unable to escape the maze using the instructions, a message indicating
      * this is returned. MVP coded to block up and down movement for particular maze implementation.
      * 
-     * @param maze the maze to be navigated
+     * @param maze the maze to navigate
      * @return a message indicating whether the walker escaped the maze or not
      */
     @Override
     public String walk(Maze maze) {
+
         for (int i = 0; i < this.instructions.length(); i++) {
             char currentInstruction = this.instructions.charAt(i);
 
             // switch might be CODE SMELL. Find other method of reading the instructions.
             switch (currentInstruction) {
-                case 'F':
-                    // Disable moving up or down for this particular maze implementation
-                    if (this.direction == 0 || this.direction == 2) // refactor directions with enum
-                        this.move();
-                    break;
-                case 'L':
-                    this.turnLeft();
-                    break;
-                case 'R':
-                    this.turnRight();
-                    break;
-                default:
-                    break;
-            }
-            
-            
-            if (this.walkStatus.hasEscaped(this, maze)) {
-                return "correct path";
+                case 'F' -> {
+                    this.moveForward();
+                    
+                    if (this.walkStatus.hasEscaped(this, maze)) {
+                        return "correct path"; 
+                    }
+
+                    try {
+                        if (walkStatus.hitWall(this, maze)) {
+                            this.stepBack();
+                        }                  
+                    } catch (IndexOutOfBoundsException e) {
+                        this.stepBack();
+                    }
+                }
+                case 'L' -> this.turnLeft();
+                case 'R' -> this.turnRight();
+                default -> {
+                }
             }
         }
 
         if (!this.attemptedBothEnds) {
-            this.attemptFromOtherSide(maze);
+            return this.attemptFromOtherSide(maze);
         }
 
         return "incorrect path";
-        
     }
 
     /**
      * Attempts to walk the maze from the other opening after failing to do so from 
-     * the original entry. Sets the walker's coordinates to the end of the maze, 
+     * the original entry point. Sets the walker's coordinates to the end of the maze, 
      * swaps the start and end points of the maze, flips the walker's entry 
      * direction, and marks that the walker has attempted both ends.
-     * @param maze the maze to be navigated
+     * @param maze the maze to navigate
      */
-    public void attemptFromOtherSide(Maze maze) {
+    private String attemptFromOtherSide(Maze maze) {
         this.coords[0] = maze.getEndCoords()[0];
         this.coords[1] = maze.getEndCoords()[1];
         maze.swapEntryExit();
-        this.direction = (this.getEntryDirection() + 2) % 4; // change direction to opposite of entry direction (e.g. East if West, West if East)
+        this.direction = this.getEntryDirection().flipEntryDirection(); // change direction to opposite of entry direction (e.g. East if West, West if East)
         this.attemptedBothEnds = true;
         
-        this.walk(maze);
+        return this.walk(maze);
     }
-
 }

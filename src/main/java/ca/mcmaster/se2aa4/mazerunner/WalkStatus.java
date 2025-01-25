@@ -30,6 +30,6 @@ public class WalkStatus {
      * @return true if the walker is at a wall, false otherwise
      */
     public boolean hitWall(Walker walker, Maze maze) {
-        return maze.peakBlock(walker.getCoords()[0], walker.getCoords()[0]) == '#';
+        return maze.peakBlock(walker.getCoords()[0], walker.getCoords()[1]) == '#';
     }
 }

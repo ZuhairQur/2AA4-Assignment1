@@ -13,12 +13,11 @@ package ca.mcmaster.se2aa4.mazerunner;
 public abstract class Walker {
     
     protected int[] coords = new int[2];
-    protected int direction;
-    private final int entryDirection;
-    protected final int [][] directions = {{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
+    protected Direction direction;
+    private final Direction entryDirection;
     protected WalkStatus walkStatus;
 
-    public Walker(int [] coords, int direction, WalkStatus walkStatus) {
+    public Walker(int [] coords, Direction direction, WalkStatus walkStatus) {
         this.coords = coords;
         this.direction = direction;
         this.entryDirection = direction;
@@ -39,7 +38,7 @@ public abstract class Walker {
      * This is useful to track when attempting to walk from the other opening.
      * @return the direction the walker faced when it started walking the maze
      */
-    public int getEntryDirection() {
+    public Direction getEntryDirection() {
         return this.entryDirection;
     }
 
@@ -48,7 +47,7 @@ public abstract class Walker {
      * by rotating the direction counterclockwise according to the directions array.
      */
     protected void turnLeft() {
-        this.direction = (this.direction + 3) % 4;
+        this.direction = this.direction.turnLeft();
     }
 
     /**
@@ -56,16 +55,26 @@ public abstract class Walker {
      * rotating the direction clockwise according to the directions array.
      */
     protected void turnRight() {
-        this.direction = (this.direction + 1) % 4;
+        this.direction = this.direction.turnRight();
+    }
+
+    /**
+     * Moves the walker one block in the opposite direction of the current direction.
+     * This can be used to undo the walker's last move.
+     */
+    public void stepBack() {
+        this.coords[0] -= this.direction.getDirectionVector()[0];
+        this.coords[1] -= this.direction.getDirectionVector()[1];
     }
 
     /**
      * Moves the walker one block in the current direction.
      * This method should be called after the walker has confirmed that it is not hitting a wall.
      */
-    public void move() {
-        this.coords[0] += this.directions[this.direction][0];
-        this.coords[1] += this.directions[this.direction][1];
+    
+     public void moveForward() {
+        this.coords[0] += this.direction.getDirectionVector()[0];
+        this.coords[1] += this.direction.getDirectionVector()[1];
     }
 
     public abstract String walk(Maze maze);

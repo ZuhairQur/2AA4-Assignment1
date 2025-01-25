@@ -12,7 +12,7 @@ public class FreeWalker extends Walker {
 
     private final StringBuilder instructions = new StringBuilder();
     
-    public FreeWalker(int[] coords, int direction, WalkStatus walkStatus) {
+    public FreeWalker(int[] coords, Direction direction, WalkStatus walkStatus) {
         super(coords, direction, walkStatus);
     }
 
@@ -30,7 +30,7 @@ public class FreeWalker extends Walker {
     @Override
     public String walk(Maze maze) {
         while (!walkStatus.hasEscaped(this, maze)) {
-            this.move();
+            this.moveForward();
             this.instructions.append("F");
         }
 
