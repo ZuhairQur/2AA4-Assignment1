@@ -11,7 +11,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class Configuration {
     private final Maze maze;
-    private Walker walker;
     private final WalkStatus walkingStatus;
     private final String userInstructions;
 
@@ -46,13 +45,11 @@ public class Configuration {
         Direction startDirection = Direction.RIGHT;
         startDirection = startDirection.getStartDirection(startColumn);
 
-        this.walker = new FreeWalker(walkerStartCoords, startDirection, this.walkingStatus);
-
         if (this.userInstructions != null) {
-            this.walker = new InstructedWalker(walkerStartCoords, startDirection,  this.walkingStatus, this.userInstructions);
+            return new InstructedWalker(walkerStartCoords, startDirection,  this.walkingStatus, this.userInstructions);
         }
 
-        return this.walker;
+        return new FreeWalker(walkerStartCoords, startDirection, walkingStatus);
          
     }
 }

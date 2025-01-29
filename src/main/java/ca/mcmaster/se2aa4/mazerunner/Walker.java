@@ -46,16 +46,16 @@ public abstract class Walker {
      * Changes the walker's direction to the one on its left
      * by rotating the direction counterclockwise according to the directions array.
      */
-    protected void turnLeft() {
-        this.direction = this.direction.turnLeft();
+    public void turnLeft() {
+        this.direction = this.direction.onLeft();
     }
 
     /**
      * Changes the walker's direction to the one on its right by
      * rotating the direction clockwise according to the directions array.
      */
-    protected void turnRight() {
-        this.direction = this.direction.turnRight();
+    public void turnRight() {
+        this.direction = this.direction.onRight();
     }
 
     /**

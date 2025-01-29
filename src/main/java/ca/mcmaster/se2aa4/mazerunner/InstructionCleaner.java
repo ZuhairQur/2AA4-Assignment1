@@ -39,25 +39,24 @@ public class InstructionCleaner {
         StringBuilder factoredInstructions = new StringBuilder("");
         
 
-        int factorCounter = 0;
+        int factorCounter = 1;
 
-        for (int i = 0; i < trimmedInstructions.length(); i++) {
+        for (int i = 1; i < trimmedInstructions.length(); i++) {
             char currentInstruction = trimmedInstructions.charAt(i);
-
-            if (currentInstruction == 'F') {
+            char previousInstruction = trimmedInstructions.charAt(i - 1);
+            
+            if (currentInstruction == previousInstruction) {
                 factorCounter++;
             } else {
-                if (factorCounter > 0) {
-                    factoredInstructions
-                    .append(factorCounter)
-                    .append("F")
-                    .append(" ");
-                    factorCounter = 0;
-                }
+                String instruction = previousInstruction + " ";
                 
-                factoredInstructions
-                .append(currentInstruction)
-                .append("");
+                if (factorCounter > 1) {
+                    instruction = factorCounter + instruction;
+                } 
+                
+                factorCounter = 1;
+                
+                factoredInstructions.append(instruction);
             }
         }
 

@@ -10,10 +10,17 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class FreeWalker extends Walker {
 
-    private final StringBuilder instructions = new StringBuilder();
+    private Direction onRight;
+    private final MazeSolvingAlgorithm rightHandAlgorithm;
     
     public FreeWalker(int[] coords, Direction direction, WalkStatus walkStatus) {
         super(coords, direction, walkStatus);
+        this.rightHandAlgorithm = new RightHandAlgorithm();
+    }
+
+    public Direction getRelativeRight() {
+        this.onRight = this.direction.onRight();
+        return this.onRight;
     }
 
 /**
@@ -29,12 +36,7 @@ public class FreeWalker extends Walker {
 
     @Override
     public String walk(Maze maze) {
-        while (!walkStatus.hasEscaped(this, maze)) {
-            this.moveForward();
-            this.instructions.append("F");
-        }
-
-        return InstructionCleaner.getFactoredInstructions(this.instructions.toString());
-
+        String walkingInstructions = rightHandAlgorithm.solveMaze(this, maze, walkStatus);
+        return InstructionCleaner.getFactoredInstructions(walkingInstructions);
     }
 }

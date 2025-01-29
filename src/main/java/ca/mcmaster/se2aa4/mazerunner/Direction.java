@@ -7,7 +7,7 @@ public enum Direction {
      * Returns the direction that results from turning left from the current direction.
      * @return the direction after turning left
      */
-    public Direction turnLeft() {
+    public Direction onLeft() {
         return switch (this) {
             case RIGHT -> UP;
             case UP -> LEFT;
@@ -20,7 +20,7 @@ public enum Direction {
      * Returns the direction that results from turning right from the current direction.
      * @return the direction after turning right
      */
-    public Direction turnRight() {
+    public Direction onRight() {
         return switch (this) {
             case RIGHT -> DOWN;
             case DOWN -> LEFT;

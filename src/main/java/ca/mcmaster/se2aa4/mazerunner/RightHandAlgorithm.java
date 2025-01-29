@@ -13,7 +13,32 @@ public class RightHandAlgorithm extends MazeSolvingAlgorithm {
  */
 
     @Override
-    public String solveMaze(FreeWalker walker, Maze maze) {
-        return null;
+    public String solveMaze(FreeWalker walker, Maze maze, WalkStatus walkStatus) {
+        StringBuilder instructions = new StringBuilder();
+
+        while (!walkStatus.hasEscaped(walker, maze)) {
+            
+
+            walker.moveForward();
+            
+            try {
+                if (walkStatus.hitWall(walker, maze)) {
+                    walker.stepBack();
+                    walker.turnLeft();
+                    instructions.append("L");
+                } else {
+                    instructions.append("F");
+                }                  
+            } catch (IndexOutOfBoundsException e) {
+                walker.stepBack();
+            }
+
+            if (!walkStatus.wallOnRight(walker, maze)) {
+                walker.turnRight();
+                instructions.append("R");
+            }
+        }
+
+        return instructions.toString();
     }
 }
