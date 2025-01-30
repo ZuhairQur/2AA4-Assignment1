@@ -110,25 +110,28 @@ public class InputHandler {
         this.reader = new BufferedReader(new FileReader(filename));
         String line;
         int lineNumber = 0;
+        int maxLineLength = 0;
         StringBuilder mazeText = new StringBuilder("");
 
         while ((line = this.reader.readLine()) != null) {
-            this.contents[lineNumber] = line.toCharArray();
+
+            if (line.length() > maxLineLength) {
+                maxLineLength = line.length();
+            }
 
             for (int idx = 0; idx < line.length(); idx++) {
                 mazeText.append(line.charAt(idx));
             }
 
-            // Handling the edge case where a line is empty (i.e. all pass)
-            if (line.length() == 0) {
-                String emptyLine = "";
-                for (int i = 0; i < contents[0].length; i++) {
+            // Handling the edge case where line contains null space at the end
+            int emptyCharCount = maxLineLength - line.length();
+            if (emptyCharCount > 0) {
+                for (int i = 0; i < emptyCharCount; i++) {
                     mazeText.append("  ");
-                    emptyLine += " ";
+                    line += " ";
                 }
-                this.contents[lineNumber] = emptyLine.toCharArray();
             }
-
+            this.contents[lineNumber] = line.toCharArray();
             lineNumber++;
             mazeText.append("\n"); 
         }

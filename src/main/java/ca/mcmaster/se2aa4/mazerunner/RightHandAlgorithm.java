@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.util.Arrays;
+
 public class RightHandAlgorithm extends MazeSolvingAlgorithm {
     
 /**
@@ -15,10 +17,9 @@ public class RightHandAlgorithm extends MazeSolvingAlgorithm {
     @Override
     public String solveMaze(FreeWalker walker, Maze maze, WalkStatus walkStatus) {
         StringBuilder instructions = new StringBuilder();
+        System.out.println(Arrays.toString(walker.getCoords()));
 
         while (!walkStatus.hasEscaped(walker, maze)) {
-            
-
             walker.moveForward();
             
             try {
@@ -38,6 +39,8 @@ public class RightHandAlgorithm extends MazeSolvingAlgorithm {
                 instructions.append("R");
             }
         }
+
+        System.out.println(Arrays.toString(walker.getCoords()));
 
         return instructions.toString();
     }
