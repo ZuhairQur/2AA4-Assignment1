@@ -33,7 +33,7 @@ public class Main {
 
         // Setting up walking skeleton and executing
         try {
-            char[][] contents = inputHandler.readInput(args);
+            MazeBlock[][] contents = inputHandler.readInput(args);
             Configuration configuration = new Configuration(contents, inputHandler.getInstructions());
             Maze maze = configuration.getConfiguredMaze();
             Walker walker = configuration.getConfiguredWalker();

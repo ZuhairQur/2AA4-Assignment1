@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 public class InputHandler {
     private BufferedReader reader;
     private final Options options;
-    private char[][] contents;
+    private MazeBlock[][] contents;
     private CommandLine command;
     private String instructions;
     private final CommandLineParser parser;
@@ -62,7 +62,7 @@ public class InputHandler {
      * @param args the command line arguments
      * @return the configured maze file contents in a character by character array
      */
-    public char[][] readInput(String[] args) throws Exception {
+    public MazeBlock[][] readInput(String[] args) throws Exception {
    
         this.command = parser.parse(options, args);
 
@@ -73,7 +73,7 @@ public class InputHandler {
 
             Path path = Path.of(filename);
             int totalLineCount = (int) Files.lines(path).count();     
-            this.contents = new char[totalLineCount][];
+            this.contents = new MazeBlock[totalLineCount][];
 
             this.readMaze(filename);
 
@@ -129,9 +129,10 @@ public class InputHandler {
                 for (int i = 0; i < emptyCharCount; i++) {
                     mazeText.append("  ");
                     line += " ";
+
                 }
             }
-            this.contents[lineNumber] = line.toCharArray();
+            this.contents[lineNumber] = MazeBlock.toMazeBlockArray(line);
             lineNumber++;
             mazeText.append("\n"); 
         }

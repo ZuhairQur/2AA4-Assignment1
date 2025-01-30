@@ -14,7 +14,7 @@ public class Configuration {
     private final WalkStatus walkingStatus;
     private final String userInstructions;
 
-    public Configuration(char [][] contents, String userInstructions) {
+    public Configuration(MazeBlock [][] contents, String userInstructions) {
         this.userInstructions = userInstructions;
         this.maze = new Maze(contents);
         this.walkingStatus = new WalkStatus();

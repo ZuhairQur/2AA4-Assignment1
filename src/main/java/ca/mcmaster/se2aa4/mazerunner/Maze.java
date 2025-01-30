@@ -13,12 +13,12 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 
 public class Maze {
-    private final char[][] maze;
+    private final MazeBlock[][] maze;
     private int [] startCoords = new int [2];
     private int [] endCoords = new int[2];
     private final boolean entryOnRight;
 
-    public Maze(char [][] maze) {
+    public Maze(MazeBlock [][] maze) {
         this.maze = maze;
         this.entryOnRight = Math.random() < 0.5;
         
@@ -33,7 +33,7 @@ public class Maze {
      * @param y the column number of the block to retrieve
      * @return the block at the specified coordinates
      */
-    public char peakBlock(int x, int y) {
+    public MazeBlock peakBlock(int x, int y) {
         return maze[x][y];
     }
 
@@ -57,12 +57,12 @@ public class Maze {
         // Identifying the opening in the first and last columns
         for (int i = 0; i < maze.length; i++) {
             
-            if (maze[i][0] == ' ') {
+            if (maze[i][0].isPass()) {
                 leftOpening[0] = i;
                 leftOpening[1] = 0;
             }
 
-            if (maze[i][maze[i].length - 1] == ' ') {
+            if (maze[i][maze[i].length - 1].isPass()) {
                 rightOpening[0] = i;
                 rightOpening[1] = maze[0].length - 1;
             }

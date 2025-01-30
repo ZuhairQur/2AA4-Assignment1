@@ -30,13 +30,13 @@ public class WalkStatus {
      * @return true if the walker is at a wall, false otherwise
      */
     public boolean hitWall(Walker walker, Maze maze) {
-        return maze.peakBlock(walker.getCoords()[0], walker.getCoords()[1]) == '#';
+        return maze.peakBlock(walker.getCoords()[0], walker.getCoords()[1]).isWall();
     }
 
     public boolean wallOnRight(FreeWalker walker, Maze maze) {
         Direction relativeRight = walker.getRelativeRight();
         int [] rightDirectionVector = relativeRight.getDirectionVector();
 
-        return maze.peakBlock(walker.getCoords()[0] + rightDirectionVector[0], walker.getCoords()[1] + rightDirectionVector[1]) == '#';
+        return maze.peakBlock(walker.getCoords()[0] + rightDirectionVector[0], walker.getCoords()[1] + rightDirectionVector[1]).isWall();
     }
 }
