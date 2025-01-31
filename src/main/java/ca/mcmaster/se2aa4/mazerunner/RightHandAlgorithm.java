@@ -15,15 +15,15 @@ public class RightHandAlgorithm extends MazeSolvingAlgorithm {
  */
 
     @Override
-    public String solveMaze(FreeWalker walker, Maze maze, WalkStatus walkStatus) {
+    public String solveMaze(FreeWalker walker, Maze maze) {
         StringBuilder instructions = new StringBuilder();
         System.out.println(Arrays.toString(walker.getCoords()));
 
-        while (!walkStatus.hasEscaped(walker, maze)) {
+        while (!maze.hasEscaped(walker)) {
             walker.moveForward();
             
             try {
-                if (walkStatus.hitWall(walker, maze)) {
+                if (maze.hitWall(walker)) {
                     walker.stepBack();
                     walker.turnLeft();
                     instructions.append("L");
@@ -34,7 +34,7 @@ public class RightHandAlgorithm extends MazeSolvingAlgorithm {
                 walker.stepBack();
             }
 
-            if (!walkStatus.wallOnRight(walker, maze)) {
+            if (!maze.wallOnRight(walker)) {
                 walker.turnRight();
                 instructions.append("R");
             }

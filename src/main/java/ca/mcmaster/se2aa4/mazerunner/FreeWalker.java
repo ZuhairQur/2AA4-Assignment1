@@ -36,7 +36,7 @@ public class FreeWalker extends Walker {
 
     @Override
     public String walk(Maze maze) {
-        String walkingInstructions = rightHandAlgorithm.solveMaze(this, maze, walkStatus);
-        return InstructionCleaner.getFactoredInstructions(walkingInstructions);
+        String walkingInstructions = rightHandAlgorithm.solveMaze(this, maze);
+        return this.instructionCleaner.getFactoredInstructions(walkingInstructions);
     }
 }

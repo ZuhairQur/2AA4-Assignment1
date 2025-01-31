@@ -79,7 +79,8 @@ public class InputHandler {
 
             // Read in instructions (if present) and verify that they are valid
             if (this.command.hasOption("p")) {
-                this.instructions = InstructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
+                InstructionCleaner instructionCleaner = new InstructionCleaner();
+                this.instructions = instructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
 
                 if (!this.hasValidInstructions()) {
                     throw new Exception("Instructions are not canonical.");
@@ -148,6 +149,7 @@ public class InputHandler {
      * @return true if the instructions are canonically valid, false otherwise
      */
     public boolean hasValidInstructions() {
+
         for (int i = 0; i < this.instructions.length(); i++) {
             if (this.instructions.charAt(i) != 'F' && this.instructions.charAt(i) != 'L' && this.instructions.charAt(i) != 'R') {
                 return false;

@@ -9,7 +9,7 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class InstructedWalker extends Walker {
 
-    private final String instructions;
+    private String instructions;
     private boolean attemptedBothEnds;
 
     public InstructedWalker(int [] coords, Direction direction, WalkStatus walkStatus, String instructions) {
@@ -31,6 +31,8 @@ public class InstructedWalker extends Walker {
     @Override
     public String walk(Maze maze) {
 
+        this.instructions = this.instructionCleaner.getUnfactoredInstructions(instructions);
+
         for (int i = 0; i < this.instructions.length(); i++) {
             char currentInstruction = this.instructions.charAt(i);
 
@@ -39,12 +41,12 @@ public class InstructedWalker extends Walker {
                 case 'F' -> {
                     this.moveForward();
                     
-                    if (this.walkStatus.hasEscaped(this, maze)) {
+                    if (maze.hasEscaped(this)) {
                         return "correct path"; 
                     }
 
                     try {
-                        if (walkStatus.hitWall(this, maze)) {
+                        if (maze.hitWall(this)) {
                             this.stepBack();
                         }                  
                     } catch (IndexOutOfBoundsException e) {
@@ -73,9 +75,7 @@ public class InstructedWalker extends Walker {
      * @param maze the maze to navigate
      */
     private String attemptFromOtherSide(Maze maze) {
-        this.coords[0] = maze.getEndCoords()[0];
-        this.coords[1] = maze.getEndCoords()[1];
-        maze.swapEntryExit();
+        maze.enterOtherSide(this);
         this.direction = this.getEntryDirection().flipEntryDirection(); // change direction to opposite of entry direction (e.g. East if West, West if East)
         this.attemptedBothEnds = true;
         

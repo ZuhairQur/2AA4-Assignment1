@@ -27,7 +27,7 @@ public class InstructionCleaner {
      * @return a string with factored walking instructions
      */
 
-    public static String getFactoredInstructions(String unfactoredInstructions) {
+    public String getFactoredInstructions(String unfactoredInstructions) {
         StringBuilder trimmedInstructions = new StringBuilder();
         
         // removing all whitespace, except padding space at the end
@@ -76,7 +76,7 @@ public class InstructionCleaner {
      * @param factoredInstructions the string of factored walking instructions
      * @return a string with unfactored walking instructions
      */
-    public static String getUnfactoredInstructions(String factoredInstructions) {
+    public String getUnfactoredInstructions(String factoredInstructions) {
         StringBuilder trimmedInstructions = new StringBuilder();
         StringBuilder unfactoredInstructions = new StringBuilder();
 

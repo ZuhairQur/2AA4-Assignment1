@@ -12,7 +12,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 
-public class Maze {
+public class Maze implements WalkerStatus {
     private final MazeBlock[][] maze;
     private int [] startCoords = new int [2];
     private int [] endCoords = new int[2];
@@ -107,12 +107,65 @@ public class Maze {
      * from the other opening. It is called after the walker has failed to
      * escape the maze from the original entry.
      */
-    public void swapEntryExit() {
+    private void swapEntryExit() {
         int [] holdCoords = {this.startCoords[0], this.startCoords[1]};
         this.startCoords[0] = this.endCoords[0];
         this.startCoords[1] = this.endCoords[1];
         this.endCoords[0] = holdCoords[0];
         this.endCoords[1] = holdCoords[1];
     }
+
+
+    /**
+     * Checks if the walker has escaped the maze by comparing the walker's current coordinates with
+     * the maze's end coordinates. If the coordinates are equal, the walker has escaped the maze.
+     * @param walker the walker object
+     * @return true if the walker has escaped the maze, false otherwise
+     */
+    @Override
+    public boolean hasEscaped(Walker walker) {
+        return (walker.getCoords()[1] == this.endCoords[1]) && (walker.getCoords()[0] == this.endCoords[0]);
+    }
     
+    /**
+     * Determines if the walker has hit a wall in the maze.
+     * This method checks the maze block at the walker's current coordinates.
+     * If the block is a wall ('#'), it indicates the walker has hit a wall.
+     * @param walker the walker object whose position is being evaluated
+     * @return true if the walker is at a wall, false otherwise
+     */
+    @Override
+    public boolean hitWall(Walker walker) {
+        return this.maze[walker.getCoords()[0]][walker.getCoords()[1]].isWall();
+    }
+
+    /**
+     * Determines if there is a wall on the right of the walker.
+     * This method is used by the RightHandAlgorithm to determine if the walker
+     * should turn right or not.
+     * @param walker the walker object whose position is being evaluated
+     * @return true if there is a wall on the right of the walker, false otherwise
+     */
+    @Override
+    public boolean wallOnRight(FreeWalker walker) {
+        Direction relativeRight = walker.getRelativeRight();
+        int [] rightDirectionVector = relativeRight.getDirectionVector();
+
+        return this.maze[walker.getCoords()[0] + rightDirectionVector[0]][walker.getCoords()[1] + rightDirectionVector[1]].isWall();
+    }
+
+    /**
+     * When the walker fails to escape the maze from the original entry point, 
+     * This method sets the walker's coordinates to the start and end points 
+     * of the maze, to allow the walker to attempt to escape from the other opening. 
+     * @param walker the walker object whose position is being set
+     */
+    @Override
+    public void enterOtherSide(InstructedWalker walker) {
+        walker.coords[0] = this.endCoords[0];
+        walker.coords[1] = this.endCoords[1];
+        this.swapEntryExit();
+    }
+
+
 }

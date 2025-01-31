@@ -15,6 +15,7 @@ public abstract class Walker {
     protected int[] coords = new int[2];
     protected Direction direction;
     private final Direction entryDirection;
+    protected final InstructionCleaner instructionCleaner = new InstructionCleaner();
     protected WalkStatus walkStatus;
 
     public Walker(int [] coords, Direction direction, WalkStatus walkStatus) {
