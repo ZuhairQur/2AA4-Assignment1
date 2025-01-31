@@ -41,23 +41,21 @@ public class InputHandler {
      * Configures the command-line options for the application.
      * 
      * This method sets up the available options for parsing command-line arguments.
-     * It allows specifying an input file containing the maze using the '-i' or '--input'
-     * option and a path of instructions to follow through the maze using the '-p' or '--instructions'
+     * It allows specifying an input file containing the maze using the '-i' flag
+     * option and a path of instructions to follow through the maze using the '-p' flag
      * option. Options require an argument specifying the file or instructions respectively.
      */
-
     public void setOptions() {
         this.options.addOption("i", "input", true, "File containing maze");
-        this.options.addOption("p", "instructions", true, "Path to follow through maze");
+        this.options.addOption("p", "path", true, "Path to follow through maze");
     }
 
     /**
-     * Reads the input from the command line arguments and sets up the maze accordingly.
+     * Reads the input from the command line arguments and prepares the maze contents.
      * 
-     * This method reads the command line arguments and sets up the maze based on the input
+     * This method reads the command line arguments and prepares the maze contents based on the input
      * file and instructions provided. The input file must be specified, after which this method reads
-     * the file and sets up the maze contents accordingly. If instructions are specified,
-     * this method sets up the instructions for the walker to follow.
+     * the file and sets up the maze contents accordingly.
      * 
      * @param args the command line arguments
      * @return the configured maze file contents in a character by character array
@@ -65,6 +63,7 @@ public class InputHandler {
     public MazeBlock[][] readInput(String[] args) throws Exception {
    
         this.command = parser.parse(options, args);
+
 
         if (this.command.hasOption("i")) {
             String filename = this.command.getOptionValue("i");
@@ -116,6 +115,7 @@ public class InputHandler {
 
         while ((line = this.reader.readLine()) != null) {
 
+            // Identifying the longest line (corresponds to the width of the maze)
             if (line.length() > maxLineLength) {
                 maxLineLength = line.length();
             }
@@ -166,6 +166,5 @@ public class InputHandler {
     public String getInstructions() {
         return this.instructions;
     }
-
 
 }

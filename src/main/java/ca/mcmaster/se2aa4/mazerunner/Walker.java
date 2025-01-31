@@ -16,13 +16,11 @@ public abstract class Walker {
     protected Direction direction;
     private final Direction entryDirection;
     protected final InstructionCleaner instructionCleaner = new InstructionCleaner();
-    protected WalkStatus walkStatus;
 
-    public Walker(int [] coords, Direction direction, WalkStatus walkStatus) {
+    public Walker(int [] coords, Direction direction) {
         this.coords = coords;
         this.direction = direction;
         this.entryDirection = direction;
-        this.walkStatus = walkStatus;
     }
 
     /**
@@ -47,7 +45,7 @@ public abstract class Walker {
      * Changes the walker's direction to the one on its left
      * by rotating the direction counterclockwise according to the directions array.
      */
-    public void turnLeft() {
+    protected void turnLeft() {
         this.direction = this.direction.onLeft();
     }
 
@@ -55,7 +53,7 @@ public abstract class Walker {
      * Changes the walker's direction to the one on its right by
      * rotating the direction clockwise according to the directions array.
      */
-    public void turnRight() {
+    protected void turnRight() {
         this.direction = this.direction.onRight();
     }
 
@@ -63,7 +61,7 @@ public abstract class Walker {
      * Moves the walker one block in the opposite direction of the current direction.
      * This can be used to undo the walker's last move.
      */
-    public void stepBack() {
+    protected void stepBack() {
         this.coords[0] -= this.direction.getDirectionVector()[0];
         this.coords[1] -= this.direction.getDirectionVector()[1];
     }
@@ -72,8 +70,7 @@ public abstract class Walker {
      * Moves the walker one block in the current direction.
      * This method should be called after the walker has confirmed that it is not hitting a wall.
      */
-    
-     public void moveForward() {
+     protected void moveForward() {
         this.coords[0] += this.direction.getDirectionVector()[0];
         this.coords[1] += this.direction.getDirectionVector()[1];
     }

@@ -23,20 +23,6 @@ public class Maze implements WalkerStatus {
         this.entryOnRight = Math.random() < 0.5;
         
     }
-
-    /**
-     * Retrieves the block at the specified coordinates (x, y) from the maze without
-     * modifying the maze at all. This method is used by the walker to plan the
-     * next move.
-     * 
-     * @param x the row number of the block to retrieve
-     * @param y the column number of the block to retrieve
-     * @return the block at the specified coordinates
-     */
-    public MazeBlock peakBlock(int x, int y) {
-        return maze[x][y];
-    }
-
     
     /**
      * Sets the starting and ending coordinates of the maze based on its layout.
@@ -47,7 +33,6 @@ public class Maze implements WalkerStatus {
      * are randomly assigned between these identified openings to simulate different
      * entry and exit scenarios.
      */
-
     public void initializeStartEndCoords() {
 
         // Preparing start and end coordinates
@@ -57,12 +42,12 @@ public class Maze implements WalkerStatus {
         // Identifying the opening in the first and last columns
         for (int i = 0; i < maze.length; i++) {
             
-            if (maze[i][0].isPass()) {
+            if (!maze[i][0].isWall()) {
                 leftOpening[0] = i;
                 leftOpening[1] = 0;
             }
 
-            if (maze[i][maze[i].length - 1].isPass()) {
+            if (!maze[i][maze[i].length - 1].isWall()) {
                 rightOpening[0] = i;
                 rightOpening[1] = maze[0].length - 1;
             }
@@ -86,19 +71,8 @@ public class Maze implements WalkerStatus {
      * 
      * @return an array containing the row and column indices of the start position
      */
-
     public int[] getStartCoords() {
         return this.startCoords;
-    }
-
-    /**
-     * Retrieves the ending coordinates of the maze.
-     * 
-     * @return an array containing the row and column indices of the end position
-     */
-
-    public int[] getEndCoords() {
-        return this.endCoords;
     }
 
     /**

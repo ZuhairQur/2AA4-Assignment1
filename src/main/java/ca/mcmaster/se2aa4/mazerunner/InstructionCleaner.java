@@ -26,7 +26,6 @@ public class InstructionCleaner {
      * @param unfactoredInstructions the original string of walking instructions
      * @return a string with factored walking instructions
      */
-
     public String getFactoredInstructions(String unfactoredInstructions) {
         StringBuilder trimmedInstructions = new StringBuilder();
         
@@ -37,7 +36,6 @@ public class InstructionCleaner {
         .append(" ");
 
         StringBuilder factoredInstructions = new StringBuilder("");
-        
 
         int factorCounter = 1;
 
@@ -45,9 +43,12 @@ public class InstructionCleaner {
             char currentInstruction = trimmedInstructions.charAt(i);
             char previousInstruction = trimmedInstructions.charAt(i - 1);
             
+            // Counts the number of consecutive instructions
             if (currentInstruction == previousInstruction) {
                 factorCounter++;
             } else {
+
+                // Appends the factored instruction string
                 String instruction = previousInstruction + " ";
                 
                 if (factorCounter > 1) {
@@ -66,39 +67,51 @@ public class InstructionCleaner {
 
     /**
      * Expands a string of walking instructions by replacing factored 'F' instructions
-     * with that many 'F' instructions.
+     * with that many 'F' instructions. Used for ease of processing in Walker objects.
      * 
      * This method takes a string of factored instructions, removes all whitespace, and
-     * processes the instructions to expand sequences of 'F' instructions.
-     * Each number followed by 'F' instruction is replaced with the that number
-     * of 'F' instructions. Other characters are appended as is.
+     * processes the instructions to expand sequences of canonical ('F', 'L', 'R') instructions.
      *
      * @param factoredInstructions the string of factored walking instructions
      * @return a string with unfactored walking instructions
      */
     public String getUnfactoredInstructions(String factoredInstructions) {
         StringBuilder trimmedInstructions = new StringBuilder();
+        StringBuilder factorDigits = new StringBuilder();
+        int factorValue = 0;
         StringBuilder unfactoredInstructions = new StringBuilder();
 
-        
         trimmedInstructions
         .append(factoredInstructions
         .replaceAll("\\s+",""))
         .append(" "); // padding to avoid index out of bounds
 
+        // Iterate through space-removed unfactoredString
         for (int i = 0; i < trimmedInstructions.length() - 1; i++) {
             char currentInstruction = trimmedInstructions.charAt(i);
-            char nextInstruction = trimmedInstructions.charAt(i+1);
-
-            // Unfactoring the instruction based on factor provided
-            if (Character.isDigit(currentInstruction) && Character.isAlphabetic(nextInstruction)) {
-                for (int j = 0; j < Character.getNumericValue(currentInstruction); j++) {
-                    unfactoredInstructions.append(nextInstruction);
-                }
-                i += 1; // skip the next instruction, as it has already been processed
+            
+            // Store factor digits until reaching instruction to which it applies
+            if (Character.isDigit(currentInstruction)) {
+                factorDigits.append(currentInstruction);
             } else {
+                
+                // Convert the factor string to an int
+                for (int k = 0; k < factorDigits.length(); k++) {
+                    int placeValue = factorDigits.length() - k - 1;
+                    int factorDigit = Character.getNumericValue(factorDigits.charAt(placeValue));
+                    factorValue += (int)(Math.pow(10, k) * factorDigit);
+                }
+                
                 unfactoredInstructions.append(currentInstruction);
-            } 
+                
+                for (int j = 0; j < factorValue - 1; j++) {
+                    unfactoredInstructions.append(currentInstruction);
+                }
+                
+                // Reset factor digit string for next encounter of a factor
+                factorDigits.setLength(0);
+                factorValue = 0;
+            }
         }
         
         return unfactoredInstructions.toString();

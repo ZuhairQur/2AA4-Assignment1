@@ -1,3 +1,12 @@
+/**
+ * File: RightHandAlgorithm.java
+ * Author: Zuhair Qureshi
+ * Description: This class contains a concrete maze solving algorithm implementation 
+ * that uses the right-hand rule to allow an unguided walker to navigate the maze.
+ * The right hand algorithm is a strategy where the walker keep its 
+ * right hand in contact with the wall at all times to reach the exit.
+ */
+
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.Arrays;
@@ -13,7 +22,6 @@ public class RightHandAlgorithm extends MazeSolvingAlgorithm {
  * @param maze the Maze object representing the maze structure
  * @return a string of instructions that represents the path taken
  */
-
     @Override
     public String solveMaze(FreeWalker walker, Maze maze) {
         StringBuilder instructions = new StringBuilder();

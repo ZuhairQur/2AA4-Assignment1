@@ -12,8 +12,8 @@ public class InstructedWalker extends Walker {
     private String instructions;
     private boolean attemptedBothEnds;
 
-    public InstructedWalker(int [] coords, Direction direction, WalkStatus walkStatus, String instructions) {
-        super(coords, direction, walkStatus);
+    public InstructedWalker(int [] coords, Direction direction, String instructions) {
+        super(coords, direction);
         this.instructions = instructions;
         this.attemptedBothEnds = false;
     }

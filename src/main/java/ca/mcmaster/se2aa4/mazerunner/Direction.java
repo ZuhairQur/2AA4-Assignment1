@@ -8,12 +8,16 @@ public enum Direction {
      * @return the direction after turning left
      */
     public Direction onLeft() {
-        return switch (this) {
-            case RIGHT -> UP;
-            case UP -> LEFT;
-            case LEFT -> DOWN;
-            default -> RIGHT;
-        };
+        
+        if (this == RIGHT) {
+            return UP;
+        } else if (this == UP) {
+            return LEFT;
+        } else if (this == LEFT) {
+            return DOWN;
+        } 
+
+        return RIGHT;
     }
 
     /**
@@ -21,12 +25,15 @@ public enum Direction {
      * @return the direction after turning right
      */
     public Direction onRight() {
-        return switch (this) {
-            case RIGHT -> DOWN;
-            case DOWN -> LEFT;
-            case LEFT -> UP;
-            default -> RIGHT;
-        };
+        if (this == RIGHT) {
+            return DOWN;
+        } else if (this == DOWN) {
+            return LEFT;
+        } else if (this == LEFT) {
+            return UP;
+        }
+        
+        return RIGHT;
     }
 
     /**
@@ -35,10 +42,11 @@ public enum Direction {
      * @return the flipped direction
      */
     public Direction flipEntryDirection() {
-        return switch (this) {
-            case RIGHT -> LEFT;
-            default -> RIGHT;
-        };
+        if (this == RIGHT) {
+            return LEFT;
+        } 
+
+        return RIGHT;
     }
 
     /**
@@ -49,18 +57,30 @@ public enum Direction {
      * @return the direction vector as an array of two integers
      */
     public int[] getDirectionVector() {
-        return switch (this) {
-            case UP -> new int[] {-1, 0};
-            case RIGHT -> new int[] {0, 1};
-            case DOWN -> new int[] {1, 0};
-            default -> new int[] {0, -1};
-        };
+
+        if (this == UP) {
+            return new int[] {-1, 0};
+        } else if (this == RIGHT) {
+            return new int[] {0, 1};
+        } else if (this == DOWN) {
+            return new int[] {1, 0};
+        } 
+
+        return new int[] {0, -1};
     }
 
+    /**
+     * Returns the starting direction based on the start column of the walker.
+     * If the start column is 0 (i.e. west end), the walker starts by facing right.
+     * Otherwise, the walker starts on the east end, facing left.
+     * @param startColumn the column index of the start position
+     * @return the starting direction
+     */
     public Direction getStartDirection(int startColumn) {
-        return switch (startColumn) {
-            case 0 -> RIGHT;
-            default -> LEFT;
-        };
+        if (startColumn == 0) {
+            return RIGHT;
+        }
+
+        return LEFT;
     }
 }

@@ -23,7 +23,6 @@ public class Main {
  * @param args command line arguments, expected to include options for input
  *             maze file and optional instructions for the walker.
  */
-
     public static void main(String[] args) {
 
         // Collecting user input and command line arguments
