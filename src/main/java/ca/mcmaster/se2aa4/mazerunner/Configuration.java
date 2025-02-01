@@ -10,12 +10,12 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Configuration {
-    private final Maze maze;
     private final String userInstructions;
+    private final MazeBlock[][] contents;
 
     public Configuration(MazeBlock [][] contents, String userInstructions) {
         this.userInstructions = userInstructions;
-        this.maze = new Maze(contents);        
+        this.contents = contents;
     }
 
     /**
@@ -23,8 +23,9 @@ public class Configuration {
      * @return the configured maze object
      */
     public Maze getConfiguredMaze() {
-        this.maze.initializeStartEndCoords();
-        return this.maze;
+        Maze maze = new Maze(contents);
+        maze.initializeStartEndCoords();
+        return maze;
     }
 
     /**
@@ -34,20 +35,20 @@ public class Configuration {
      * walker faces right; if the column is non-zero, the walker faces left.
      * @return the configured walker object
      */
-    public Walker getConfiguredWalker() {
-        Direction startDirection = Direction.RIGHT;
+    public Walker getConfiguredWalker(Maze maze) {
+        Direction walkerStartDirection = Direction.LEFT;
         int [] walkerStartCoords = {maze.getStartCoords()[0], maze.getStartCoords()[1]};
-        int startColumn = walkerStartCoords[1];
-        
+        int walkerStartingColumn = walkerStartCoords[1];
 
-        // Change the start direction based on the start column
-        startDirection = startDirection.getStartDirection(startColumn);
+        if (walkerStartingColumn == 0) {
+            walkerStartDirection = Direction.RIGHT;
+        } 
 
         if (this.userInstructions != null) {
-            return new InstructedWalker(walkerStartCoords, startDirection, this.userInstructions);
+            return new InstructedWalker(walkerStartCoords, walkerStartDirection, this.userInstructions);
         }
 
-        return new FreeWalker(walkerStartCoords, startDirection);
+        return new FreeWalker(walkerStartCoords, walkerStartDirection);
          
     }
 }

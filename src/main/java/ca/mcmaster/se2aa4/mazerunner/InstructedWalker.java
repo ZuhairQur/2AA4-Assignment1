@@ -76,7 +76,7 @@ public class InstructedWalker extends Walker {
      */
     private String attemptFromOtherSide(Maze maze) {
         maze.enterOtherSide(this);
-        this.direction = this.getEntryDirection().flipEntryDirection(); // change direction to opposite of entry direction (e.g. East if West, West if East)
+        this.direction = this.flipEntryDirection(); // change direction to opposite of entry direction (e.g. East if West, West if East)
         this.attemptedBothEnds = true;
         
         return this.walk(maze);

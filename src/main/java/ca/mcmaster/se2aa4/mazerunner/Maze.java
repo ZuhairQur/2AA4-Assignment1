@@ -42,12 +42,12 @@ public class Maze implements WalkerStatus {
         // Identifying the opening in the first and last columns
         for (int i = 0; i < maze.length; i++) {
             
-            if (!maze[i][0].isWall()) {
+            if (!(maze[i][0] == MazeBlock.WALL)) {
                 leftOpening[0] = i;
                 leftOpening[1] = 0;
             }
 
-            if (!maze[i][maze[i].length - 1].isWall()) {
+            if (!(maze[i][maze[i].length - 1] == MazeBlock.WALL)) {
                 rightOpening[0] = i;
                 rightOpening[1] = maze[0].length - 1;
             }
@@ -82,11 +82,11 @@ public class Maze implements WalkerStatus {
      * escape the maze from the original entry.
      */
     private void swapEntryExit() {
-        int [] holdCoords = {this.startCoords[0], this.startCoords[1]};
+        int [] coordStore = {this.startCoords[0], this.startCoords[1]};
         this.startCoords[0] = this.endCoords[0];
         this.startCoords[1] = this.endCoords[1];
-        this.endCoords[0] = holdCoords[0];
-        this.endCoords[1] = holdCoords[1];
+        this.endCoords[0] = coordStore[0];
+        this.endCoords[1] = coordStore[1];
     }
 
 
@@ -98,7 +98,7 @@ public class Maze implements WalkerStatus {
      */
     @Override
     public boolean hasEscaped(Walker walker) {
-        return (walker.getCoords()[1] == this.endCoords[1]) && (walker.getCoords()[0] == this.endCoords[0]);
+        return (walker.coords[1] == this.endCoords[1]) && (walker.coords[0] == this.endCoords[0]);
     }
     
     /**
@@ -110,7 +110,7 @@ public class Maze implements WalkerStatus {
      */
     @Override
     public boolean hitWall(Walker walker) {
-        return this.maze[walker.getCoords()[0]][walker.getCoords()[1]].isWall();
+        return this.maze[walker.coords[0]][walker.coords[1]] == MazeBlock.WALL;
     }
 
     /**
@@ -122,15 +122,15 @@ public class Maze implements WalkerStatus {
      */
     @Override
     public boolean wallOnRight(FreeWalker walker) {
-        Direction relativeRight = walker.getRelativeRight();
-        int [] rightDirectionVector = relativeRight.getDirectionVector();
+        Direction relativeRight = walker.onRight();
+        int [] rightDirectionVector = walker.directionVectorMap.get(relativeRight);
 
-        return this.maze[walker.getCoords()[0] + rightDirectionVector[0]][walker.getCoords()[1] + rightDirectionVector[1]].isWall();
+        return this.maze[walker.coords[0] + rightDirectionVector[0]][walker.coords[1] + rightDirectionVector[1]] == MazeBlock.WALL;
     }
 
     /**
      * When the walker fails to escape the maze from the original entry point, 
-     * This method sets the walker's coordinates to the start and end points 
+     * this method sets the walker's coordinates to the start and end points 
      * of the maze, to allow the walker to attempt to escape from the other opening. 
      * @param walker the walker object whose position is being set
      */

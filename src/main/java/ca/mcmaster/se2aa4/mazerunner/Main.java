@@ -35,9 +35,9 @@ public class Main {
             MazeBlock[][] contents = inputHandler.readInput(args);
             Configuration configuration = new Configuration(contents, inputHandler.getInstructions());
             Maze maze = configuration.getConfiguredMaze();
-            Walker walker = configuration.getConfiguredWalker();
+            Walker walker = configuration.getConfiguredWalker(maze);
             String walkingResults = walker.walk(maze);
-            logger.info(walkingResults);
+            System.out.println(walkingResults);
         } catch (Exception e) {
             logger.info("**** Computing path");
             logger.error("/!\\ An error has occured /!\\");

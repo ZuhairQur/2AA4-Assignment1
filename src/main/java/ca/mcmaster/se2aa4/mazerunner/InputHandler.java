@@ -15,10 +15,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +33,7 @@ public class InputHandler {
     private CommandLine command;
     private String instructions;
     private final CommandLineParser parser;
+    private final List <Character> canonicalInstructions = Arrays.asList('F', 'L', 'R');
     private static final Logger logger = LogManager.getLogger();
 
     public InputHandler() {
@@ -41,13 +45,17 @@ public class InputHandler {
      * Configures the command-line options for the application.
      * 
      * This method sets up the available options for parsing command-line arguments.
-     * It allows specifying an input file containing the maze using the '-i' flag
-     * option and a path of instructions to follow through the maze using the '-p' flag
-     * option. Options require an argument specifying the file or instructions respectively.
+     * It forces specifying an input file containing the maze using the '-i' flag
+     * option and an optional path of instructions to follow through the maze using the '-p'
+     * flag. Options take an argument specifying the file or instructions respectively.
      */
     public void setOptions() {
-        this.options.addOption("i", "input", true, "File containing maze");
-        this.options.addOption("p", "path", true, "Path to follow through maze");
+        Option input = new Option("i", "input", true, "Input file path");
+        input.setRequired(true);
+        Option path = new Option("p", "path", true, "Path to follow through maze");
+        path.setRequired(false);
+        options.addOption(input);
+        options.addOption(path);
     }
 
     /**
@@ -64,32 +72,26 @@ public class InputHandler {
    
         this.command = parser.parse(options, args);
 
+        String filename = this.command.getOptionValue("i");
 
-        if (this.command.hasOption("i")) {
-            String filename = this.command.getOptionValue("i");
+        logger.info("**** Reading the maze from file " + filename);
 
-            logger.info("**** Reading the maze from file " + filename);
+        Path path = Path.of(filename);
+        int totalLineCount = (int) Files.lines(path).count();     
+        this.contents = new MazeBlock[totalLineCount][];
 
-            Path path = Path.of(filename);
-            int totalLineCount = (int) Files.lines(path).count();     
-            this.contents = new MazeBlock[totalLineCount][];
+        this.readMaze(filename);
 
-            this.readMaze(filename);
+        // Read in instructions (if present) and verify that they are valid
+        if (this.command.hasOption("p")) {
+            InstructionCleaner instructionCleaner = new InstructionCleaner();
+            this.instructions = instructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
 
-            // Read in instructions (if present) and verify that they are valid
-            if (this.command.hasOption("p")) {
-                InstructionCleaner instructionCleaner = new InstructionCleaner();
-                this.instructions = instructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
-
-                if (!this.hasValidInstructions()) {
-                    throw new Exception("Instructions are not canonical.");
-                }
+            if (!this.hasValidInstructions()) {
+                throw new IllegalArgumentException("Instructions are not canonical.");
             }
         }
-
-        else {
-            throw new Exception("No commands entered.");
-        }
+        
 
         return this.contents;
     }
@@ -106,7 +108,7 @@ public class InputHandler {
      * @throws FileNotFoundException if the specified file does not exist
      * @throws IOException if an error occurs while reading the file
      */
-    private void readMaze(String filename) throws FileNotFoundException, IOException  {
+    private void readMaze(String filename) throws FileNotFoundException, IOException, IllegalStateException  {
         this.reader = new BufferedReader(new FileReader(filename));
         String line;
         int lineNumber = 0;
@@ -121,7 +123,12 @@ public class InputHandler {
             }
 
             for (int idx = 0; idx < line.length(); idx++) {
-                mazeText.append(line.charAt(idx));
+                char currentChar = line.charAt(idx);
+                mazeText.append(currentChar);
+
+                if (currentChar != ' ' && currentChar != '#') {
+                    throw new IOException("Maze contains invalid characters.");
+                }
             }
 
             // Handling the edge case where line contains null space at the end
@@ -133,7 +140,7 @@ public class InputHandler {
 
                 }
             }
-            this.contents[lineNumber] = MazeBlock.toMazeBlockArray(line);
+            this.contents[lineNumber] = this.toMazeBlockArray(line);
             lineNumber++;
             mazeText.append("\n"); 
         }
@@ -148,14 +155,42 @@ public class InputHandler {
      * this method returns false. Otherwise, it returns true.
      * @return true if the instructions are canonically valid, false otherwise
      */
-    public boolean hasValidInstructions() {
-
+    private boolean hasValidInstructions() {
         for (int i = 0; i < this.instructions.length(); i++) {
-            if (this.instructions.charAt(i) != 'F' && this.instructions.charAt(i) != 'L' && this.instructions.charAt(i) != 'R') {
+            char currentInstruction = this.instructions.charAt(i);
+            if (!canonicalInstructions.contains(currentInstruction)) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Converts a string of maze symbols into an array of MazeBlock enums.
+     * 
+     * This method takes a string where each character represents a maze element, 
+     * with '#' indicating a wall and any other character indicating a passable path. 
+     * It returns an array of MazeBlock enums corresponding to these symbols.
+     *
+     * @param mazeSymbols the string containing the symbols of the maze
+     * @return an array of MazeBlock enums representing the maze layout on that line
+     */
+
+    private MazeBlock [] toMazeBlockArray(String mazeSymbols) {
+        char [] mazeChars = mazeSymbols.toCharArray();
+        MazeBlock [] mazeBlocks = new MazeBlock[mazeChars.length];
+        MazeBlock block;
+
+        for (int i = 0; i < mazeChars.length; i++) {
+            block = MazeBlock.PASS;
+            
+            if (mazeChars[i] == '#') {
+                block = MazeBlock.WALL;
+            }
+            mazeBlocks[i] = block;
+        }
+
+        return mazeBlocks;
     }
 
     /**

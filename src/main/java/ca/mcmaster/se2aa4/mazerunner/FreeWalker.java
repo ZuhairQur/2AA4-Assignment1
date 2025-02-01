@@ -8,39 +8,69 @@
 
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class FreeWalker extends Walker {
+import java.util.Arrays;
 
-    private Direction onRight;
-    private final MazeSolvingAlgorithm rightHandAlgorithm;
+
+public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
     
     public FreeWalker(int[] coords, Direction direction) {
         super(coords, direction);
-        this.rightHandAlgorithm = new RightHandAlgorithm();
     }
 
-    /**
-     * Retrieves the direction that is on the right of the walker's current direction.
-     * Used to evaluate if there is a wall on the right of the walker.
-     * @return the direction on the right of the walker
-     */
-    public Direction getRelativeRight() {
-        this.onRight = this.direction.onRight();
-        return this.onRight;
-    }
 
 /**
- * This method moves the walker through the maze, appending
+ * This method moves the walker through the maze with an interface algorithm, appending
  * the instruction each time a move is made, until the walker escapes
- * the maze. Right hand algorithm is used. It records the path 
- * taken and returns a factored instruction string representing 
- * the sequence of movements.
+ * the maze. It records the path taken and returns a factored 
+ * instruction string representing the sequence of movements.
  *
  * @param maze the maze to be navigated
  * @return a string representing the factored path taken to exit the maze
  */
     @Override
     public String walk(Maze maze) {
-        String walkingInstructions = rightHandAlgorithm.solveMaze(this, maze);
+        String walkingInstructions = solveMaze(maze);
         return this.instructionCleaner.getFactoredInstructions(walkingInstructions);
+    }
+
+/**
+ * Solves the maze using the right-hand rule algorithm.
+ * The walker attempts to navigate the maze by keeping its right hand
+ * in contact with the wall at all times.
+ *
+ * @param walker the FreeWalker object that navigates the maze
+ * @param maze the Maze object representing the maze structure
+ * @return a string of instructions that represents the path taken
+ */
+    @Override
+    public String solveMaze(Maze maze) {
+        StringBuilder instructions = new StringBuilder();
+        
+        System.out.println(Arrays.toString(this.coords));
+
+        while (!maze.hasEscaped(this)) {
+            this.moveForward();
+
+            try {
+                if (maze.hitWall(this)) {
+                    this.stepBack();
+                    this.turnLeft();
+                    instructions.append("L");
+                } else {
+                    instructions.append("F");
+                }                  
+            } catch (IndexOutOfBoundsException e) {
+                this.stepBack();
+            }
+
+            if (!maze.wallOnRight(this)) {
+                this.turnRight();
+                instructions.append("R");
+            }
+        }
+
+        System.out.println(Arrays.toString(this.coords));
+
+        return instructions.toString();
     }
 }
