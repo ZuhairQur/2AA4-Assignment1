@@ -38,7 +38,7 @@ public class Main {
             MazeBlock[][] contents = inputHandler.readInput(args);
             Configuration configuration = new Configuration(contents, inputHandler.getInstructions());
             Maze maze = configuration.getConfiguredMaze();
-            Walker walker = configuration.getConfiguredWalker(maze);
+            Walker walker = configuration.getConfiguredWalker(maze); // walker can enter either entry or exit
             String walkingResults = walker.walk(maze);
             System.out.println(walkingResults);
         } catch (IOException e ) {
