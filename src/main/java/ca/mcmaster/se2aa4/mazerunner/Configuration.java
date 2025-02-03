@@ -4,7 +4,7 @@
  * Description: Defines the Configuration class for the Maze Runner Application.
  * Responsible for setting up the maze and walker based on input data, ensuring the
  * maze and walker are properly initialized for the application given user input.
- * It also provides access to the configured maze and walker objects.
+ * It also returns back the configured maze and walker objects.
  */
 
 package ca.mcmaster.se2aa4.mazerunner;

@@ -24,6 +24,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class InputHandler {
     private BufferedReader reader;
@@ -33,6 +35,7 @@ public class InputHandler {
     private String instructions;
     private final CommandLineParser parser;
     private final List <Character> canonicalInstructions = Arrays.asList('F', 'L', 'R');
+    private final Logger logger = LogManager.getLogger();
 
     public InputHandler() {
         this.options = new Options();
@@ -107,6 +110,7 @@ public class InputHandler {
     private void readMaze(String filename) throws IOException  {
         this.reader = new BufferedReader(new FileReader(filename));
         String line;
+        StringBuilder mazeText = new StringBuilder();
         int lineNumber = 0;
         int maxLineLength = 0;
 
@@ -119,7 +123,7 @@ public class InputHandler {
 
             for (int idx = 0; idx < line.length(); idx++) {
                 char currentChar = line.charAt(idx);
-
+                mazeText.append(currentChar);
                 if (currentChar != ' ' && currentChar != '#') {
                     throw new IOException("Maze contains invalid characters.");
                 }
@@ -130,12 +134,14 @@ public class InputHandler {
             if (emptyCharCount > 0) {
                 for (int i = 0; i < emptyCharCount; i++) {
                     line += " ";
-
                 }
             }
             this.contents[lineNumber] = this.toMazeBlockArray(line);
             lineNumber++;
+            mazeText.append("\n");
         }
+
+        this.logger.info("\nMaze:\n"+mazeText.toString());
 
         this.reader.close();
     }

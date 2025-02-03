@@ -20,7 +20,7 @@ public class Maze implements WalkerStatus {
 
     public Maze(MazeBlock [][] maze) {
         this.maze = maze;
-        this.entryOnRight = Math.random() < 0.5;
+        this.entryOnRight = Math.random() > 0.5;
         
     }
     

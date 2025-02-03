@@ -5,14 +5,9 @@
  * Defines the free movement of a walker through the maze based on right-hand algorithm.
  * It tracks and records the sequence of movements using a string of instructions.
  */
-
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.Arrays;
-
-
 public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
-    
     public FreeWalker(int[] coords, Direction direction) {
         super(coords, direction);
     }
@@ -30,7 +25,8 @@ public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
     @Override
     protected String walk(Maze maze) {
         String walkingInstructions = solveMaze(maze);
-        return this.instructionCleaner.getFactoredInstructions(walkingInstructions);
+        String cleanInstructions = this.instructionCleaner.getFactoredInstructions(walkingInstructions);
+        return cleanInstructions;
     }
 
 /**
@@ -45,6 +41,7 @@ public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
     @Override
     public String solveMaze(Maze maze) {
         StringBuilder instructions = new StringBuilder();
+        
         
         while (!maze.hasEscaped(this)) {
             this.moveForward();

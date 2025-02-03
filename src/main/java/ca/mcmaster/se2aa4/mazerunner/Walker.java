@@ -26,15 +26,13 @@ public abstract class Walker {
         Direction.LEFT, new int[]{0, -1},
         Direction.UP, new int[]{-1, 0})
     );
-    
+
 
     public Walker(int [] coords, Direction direction) {
         this.coords = coords;
         this.direction = direction;
         this.entryDirection = direction;
     }
-
-
 
     /**
      * Gets the direction to the left of the walker's current direction.
@@ -66,7 +64,6 @@ public abstract class Walker {
         }
         
         return Direction.RIGHT;
-
     }
 
     /**
