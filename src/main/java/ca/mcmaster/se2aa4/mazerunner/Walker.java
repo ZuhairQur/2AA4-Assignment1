@@ -89,7 +89,7 @@ public abstract class Walker {
      * Gets the direction opposite to the walker's entry direction.
      * @return the opposite direction
      */
-    public Direction flipEntryDirection() {
+    protected Direction flipEntryDirection() {
         if (this.entryDirection == Direction.RIGHT) {
             return Direction.LEFT;
         }
@@ -115,5 +115,5 @@ public abstract class Walker {
         this.coords[1] += this.directionVectorMap.get(this.direction)[1];
     }
 
-    public abstract String walk(Maze maze);
+    protected abstract String walk(Maze maze);
 }

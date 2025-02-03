@@ -23,8 +23,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.cli.ParseException;
 
 public class InputHandler {
     private BufferedReader reader;
@@ -34,7 +33,6 @@ public class InputHandler {
     private String instructions;
     private final CommandLineParser parser;
     private final List <Character> canonicalInstructions = Arrays.asList('F', 'L', 'R');
-    private static final Logger logger = LogManager.getLogger();
 
     public InputHandler() {
         this.options = new Options();
@@ -68,13 +66,11 @@ public class InputHandler {
      * @param args the command line arguments
      * @return the configured maze file contents in a character by character array
      */
-    public MazeBlock[][] readInput(String[] args) throws Exception {
+    public MazeBlock[][] readInput(String[] args) throws IOException, IllegalArgumentException, ParseException {
    
         this.command = parser.parse(options, args);
 
         String filename = this.command.getOptionValue("i");
-
-        logger.info("**** Reading the maze from file " + filename);
 
         Path path = Path.of(filename);
         int totalLineCount = (int) Files.lines(path).count();     
@@ -88,7 +84,7 @@ public class InputHandler {
             this.instructions = instructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
 
             if (!this.hasValidInstructions()) {
-                throw new IllegalArgumentException("Instructions are not canonical.");
+                throw new IllegalArgumentException("Path contains instructions that are not canonical ('F', 'L', 'R').");
             }
         }
         
@@ -108,12 +104,11 @@ public class InputHandler {
      * @throws FileNotFoundException if the specified file does not exist
      * @throws IOException if an error occurs while reading the file
      */
-    private void readMaze(String filename) throws FileNotFoundException, IOException, IllegalStateException  {
+    private void readMaze(String filename) throws IOException  {
         this.reader = new BufferedReader(new FileReader(filename));
         String line;
         int lineNumber = 0;
         int maxLineLength = 0;
-        StringBuilder mazeText = new StringBuilder("");
 
         while ((line = this.reader.readLine()) != null) {
 
@@ -124,7 +119,6 @@ public class InputHandler {
 
             for (int idx = 0; idx < line.length(); idx++) {
                 char currentChar = line.charAt(idx);
-                mazeText.append(currentChar);
 
                 if (currentChar != ' ' && currentChar != '#') {
                     throw new IOException("Maze contains invalid characters.");
@@ -135,18 +129,15 @@ public class InputHandler {
             int emptyCharCount = maxLineLength - line.length();
             if (emptyCharCount > 0) {
                 for (int i = 0; i < emptyCharCount; i++) {
-                    mazeText.append("  ");
                     line += " ";
 
                 }
             }
             this.contents[lineNumber] = this.toMazeBlockArray(line);
             lineNumber++;
-            mazeText.append("\n"); 
         }
 
         this.reader.close();
-        logger.info(mazeText.insert(0, "\n\n").toString());
     }
 
     /**

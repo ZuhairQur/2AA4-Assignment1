@@ -28,7 +28,7 @@ public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
  * @return a string representing the factored path taken to exit the maze
  */
     @Override
-    public String walk(Maze maze) {
+    protected String walk(Maze maze) {
         String walkingInstructions = solveMaze(maze);
         return this.instructionCleaner.getFactoredInstructions(walkingInstructions);
     }
@@ -46,8 +46,6 @@ public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
     public String solveMaze(Maze maze) {
         StringBuilder instructions = new StringBuilder();
         
-        System.out.println(Arrays.toString(this.coords));
-
         while (!maze.hasEscaped(this)) {
             this.moveForward();
 
@@ -68,9 +66,7 @@ public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
                 instructions.append("R");
             }
         }
-
-        System.out.println(Arrays.toString(this.coords));
-
+        
         return instructions.toString();
     }
 }

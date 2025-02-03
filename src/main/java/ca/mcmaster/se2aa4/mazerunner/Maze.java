@@ -121,7 +121,7 @@ public class Maze implements WalkerStatus {
      * @return true if there is a wall on the right of the walker, false otherwise
      */
     @Override
-    public boolean wallOnRight(FreeWalker walker) {
+    public boolean wallOnRight(Walker walker) {
         Direction relativeRight = walker.onRight();
         int [] rightDirectionVector = walker.directionVectorMap.get(relativeRight);
 
@@ -135,7 +135,7 @@ public class Maze implements WalkerStatus {
      * @param walker the walker object whose position is being set
      */
     @Override
-    public void enterOtherSide(InstructedWalker walker) {
+    public void enterOtherSide(Walker walker) {
         walker.coords[0] = this.endCoords[0];
         walker.coords[1] = this.endCoords[1];
         this.swapEntryExit();

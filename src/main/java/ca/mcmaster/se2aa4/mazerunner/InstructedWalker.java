@@ -29,7 +29,7 @@ public class InstructedWalker extends Walker {
      * @return a message indicating whether the walker escaped the maze or not
      */
     @Override
-    public String walk(Maze maze) {
+    protected String walk(Maze maze) {
 
         this.instructions = this.instructionCleaner.getUnfactoredInstructions(instructions);
 
@@ -37,26 +37,25 @@ public class InstructedWalker extends Walker {
             char currentInstruction = this.instructions.charAt(i);
 
             // switch might be CODE SMELL. Find other method of reading the instructions.
-            switch (currentInstruction) {
-                case 'F' -> {
-                    this.moveForward();
-                    
-                    if (maze.hasEscaped(this)) {
-                        return "correct path"; 
-                    }
 
-                    try {
-                        if (maze.hitWall(this)) {
-                            this.stepBack();
-                        }                  
-                    } catch (IndexOutOfBoundsException e) {
+            if (currentInstruction == 'F') {
+                this.moveForward();
+                    
+                if (maze.hasEscaped(this)) {
+                    return "correct path"; 
+                }
+
+                try {
+                    if (maze.hitWall(this)) {
                         this.stepBack();
-                    }
-                }
-                case 'L' -> this.turnLeft();
-                case 'R' -> this.turnRight();
-                default -> {
-                }
+                    }                  
+                } catch (IndexOutOfBoundsException e) {
+                    this.stepBack();
+                }               
+            } else if (currentInstruction == 'L') {
+                this.turnLeft();
+            } else if (currentInstruction == 'R') {
+                this.turnRight();
             }
         }
 

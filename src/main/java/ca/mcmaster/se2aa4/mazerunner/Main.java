@@ -6,6 +6,8 @@
  **/
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.io.IOException;
+import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +30,6 @@ public class Main {
         // Collecting user input and command line arguments
         InputHandler inputHandler = new InputHandler();
         inputHandler.setOptions();
-        logger.info("** Starting Maze Runner");
 
         // Setting up walking skeleton and executing
         try {
@@ -38,13 +39,19 @@ public class Main {
             Walker walker = configuration.getConfiguredWalker(maze);
             String walkingResults = walker.walk(maze);
             System.out.println(walkingResults);
+        } catch (IOException e ) {
+            logger.error("The specified maze file " + e.getMessage() + " could not be found.");
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            logger.error("Provided path sequence argument is not valid.");
+        } catch (ParseException e) {
+            logger.error(e.getMessage());
+            logger.error("Must specify a maze file through the '-i' option.");
         } catch (Exception e) {
-            logger.info("**** Computing path");
             logger.error("/!\\ An error has occured /!\\");
             logger.error(e.getMessage());
-            logger.error("PATH NOT COMPUTED");
         }
 
-        logger.info("** End of MazeRunner");
+
     }
 }
