@@ -16,11 +16,10 @@ public class Maze implements WalkerStatus {
     private final MazeBlock[][] maze;
     private int [] startCoords = new int [2];
     private int [] endCoords = new int[2];
-    private final boolean entryOnRight;
 
     public Maze(MazeBlock [][] maze) {
         this.maze = maze;
-        this.entryOnRight = Math.random() > 0.5;
+        this.initializeStartEndCoords();
         
     }
     
@@ -43,26 +42,14 @@ public class Maze implements WalkerStatus {
         for (int i = 0; i < maze.length; i++) {
             
             if (!(maze[i][0] == MazeBlock.WALL)) {
-                leftOpening[0] = i;
-                leftOpening[1] = 0;
+                this.startCoords[0] = i;
+                this.startCoords[1] = 0;
             }
 
             if (!(maze[i][maze[i].length - 1] == MazeBlock.WALL)) {
-                rightOpening[0] = i;
-                rightOpening[1] = maze[0].length - 1;
+                this.endCoords[0] = i;
+                this.endCoords[1] = maze[0].length - 1;
             }
-        }
-        
-        // Randomly assigning each opening to start and end
-        
-        if (this.entryOnRight) {
-            this.startCoords = rightOpening;
-            this.endCoords = leftOpening;
-        }
-        
-        else {
-            this.startCoords = leftOpening;
-            this.endCoords = rightOpening;
         }
     }
 
