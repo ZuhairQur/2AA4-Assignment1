@@ -90,4 +90,5 @@ public class FreeWalkerTest {
         String results = walker.walk(maze);
         assertEquals("F R F 2L 2F R 2F R 2F 2L 4F R 2F R 4F 2L 2F R 4F R 2F R 2F 2L 2F L 2F L 4F R 2F R 2F 2L 4F R 2F R 2F 2L 2F R 2F R 4F R 2F L 2F R 2F L F ", results);
     }
+
 }

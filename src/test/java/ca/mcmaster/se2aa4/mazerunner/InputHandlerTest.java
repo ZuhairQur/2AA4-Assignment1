@@ -12,12 +12,21 @@ import org.junit.jupiter.api.Test;
 public class InputHandlerTest {
     private InputHandler inputHandler;
 
+    /**
+     * Runs before each test to initialize the input handler
+     */
     @BeforeEach
     public void setup() {
         inputHandler = new InputHandler();
         inputHandler.setOptions();
     }
 
+    /**
+     * Tests that the input dimensions are correctly read from the input file.
+     * The test uses the direct.maz.txt file as an example, which has 7 rows
+     * and 8 columns. The test verifies that the readInput method correctly
+     * sets up the mazeContents array with the correct number of rows and columns.
+     * */
     @Test
     public void testInputDimensions() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt"};
@@ -26,7 +35,12 @@ public class InputHandlerTest {
         assertEquals(8, mazeContents[0].length);
     }
 
-    @Test
+
+    /**
+     * Tests that the instructions are correctly read and expanded from
+     * the input arguments. The test provides a short instruction sequence
+     * "4F" and expects it to be expanded to "FFFF" by the InputHandler.
+     */
     public void testGetInstructions() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt", "-p", "4F"};
         inputHandler.readInput(args);
@@ -34,6 +48,12 @@ public class InputHandlerTest {
         assertEquals("FFFF", instructions);
     }
 
+    /**
+     * Tests that the readInput method correctly reads the maze contents from the file.
+     * The test uses the direct.maz.txt file as an example, which has 7 rows and 8 columns.
+     * The test verifies that the readInput method correctly reads in the maze contents
+     * and sets up the mazeContents array with the correct number of rows and columns.
+     * */
     @Test
     public void testMazeReading() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt"};
@@ -51,5 +71,61 @@ public class InputHandlerTest {
 
         boolean equivalent = Arrays.deepEquals(mazeContents, expectedContents);
         assertTrue(equivalent);
+    }
+
+    /**
+     * Tests that the readInput method correctly throws an IOException when the file does not exist.
+     * The test uses a nonexistent file as an example, and verifies that the IOException is thrown
+     * when the readInput method is called.
+     */
+    @Test
+    public void testNonexistentFile() throws ParseException, IllegalArgumentException {
+        
+        String [] args = {"-i", "./examples/nonexistent.maz.txt"};
+        boolean exceptionThrown = false;
+        try {
+            inputHandler.readInput(args);
+        } catch (IOException e) {
+            exceptionThrown = true;
+        }
+
+        assertTrue(exceptionThrown);
+    }
+
+    /**
+     * Tests that the readInput method throws an IllegalArgumentException when given
+     * invalid instructions. 
+     **/
+    @Test
+    public void testInvalidInstructions() throws IOException, ParseException {
+        
+        String [] args = {"-i", "./examples/direct.maz.txt", "-p", "ABCDEFGHI"};
+        boolean exceptionThrown = false;
+        try {
+            inputHandler.readInput(args);
+        } catch (IllegalArgumentException e) {
+            exceptionThrown = true;
+        }
+
+        assertTrue(exceptionThrown);
+    }
+
+/**
+ * Tests that the readInput method throws a ParseException when given
+ * invalid command-line options.
+ * The test uses an invalid flag '-g' as an example.
+ */
+    @Test
+    public void testInvalidCommands() throws IOException, IllegalArgumentException {
+        
+        String [] args = {"-g", "./examples/direct.maz.txt"};
+        boolean exceptionThrown = false;
+        try {
+            inputHandler.readInput(args);
+        } catch (ParseException e) {
+            exceptionThrown = true;
+        }
+
+        assertTrue(exceptionThrown);
     }
 }
