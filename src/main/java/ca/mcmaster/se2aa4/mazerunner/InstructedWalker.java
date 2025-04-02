@@ -13,7 +13,7 @@ public class InstructedWalker extends Walker {
     private boolean attemptedBothEnds;
 
     public InstructedWalker(int [] coords, Direction direction, String instructions) {
-        super(coords, direction);
+        super(coords);
         this.instructions = instructions;
         this.attemptedBothEnds = false;
     }
@@ -59,9 +59,9 @@ public class InstructedWalker extends Walker {
             }
         }
 
-        if (!this.attemptedBothEnds) {
-            return this.attemptFromOtherSide(maze);
-        }
+        // if (!this.attemptedBothEnds) {
+        //     return this.attemptFromOtherSide(maze);
+        // }
 
         return "incorrect path";
     }
@@ -73,11 +73,11 @@ public class InstructedWalker extends Walker {
      * direction, and marks that the walker has attempted both ends.
      * @param maze the maze to navigate
      */
-    private String attemptFromOtherSide(Maze maze) {
-        maze.enterOtherSide(this);
-        this.direction = this.flipEntryDirection(); // change direction to opposite of entry direction (e.g. East if West, West if East)
-        this.attemptedBothEnds = true;
+    // private String attemptFromOtherSide(Maze maze) {
+    //     maze.enterOtherSide(this);
+    //     this.direction = this.flipEntryDirection(); // change direction to opposite of entry direction (e.g. East if West, West if East)
+    //     this.attemptedBothEnds = true;
         
-        return this.walk(maze);
-    }
+    //     return this.walk(maze);
+    // }
 }

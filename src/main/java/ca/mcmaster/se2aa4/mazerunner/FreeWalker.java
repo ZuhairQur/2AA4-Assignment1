@@ -7,9 +7,9 @@
  */
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
+public class FreeWalker extends Walker {
     public FreeWalker(int[] coords, Direction direction) {
-        super(coords, direction);
+        super(coords);
     }
 
 
@@ -38,7 +38,6 @@ public class FreeWalker extends Walker implements MazeSolvingAlgorithm {
  * @param maze the Maze object representing the maze structure
  * @return a string of instructions that represents the path taken
  */
-    @Override
     public String solveMaze(Maze maze) {
         StringBuilder instructions = new StringBuilder();
         

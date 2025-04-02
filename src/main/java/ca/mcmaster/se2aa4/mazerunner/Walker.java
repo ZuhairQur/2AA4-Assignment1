@@ -17,7 +17,6 @@ public abstract class Walker {
     
     protected int[] coords = new int[2];
     protected Direction direction;
-    private final Direction entryDirection;
     protected final InstructionCleaner instructionCleaner = new InstructionCleaner();
     protected HashMap<Direction, int[]> directionVectorMap = new HashMap<>(Map.of
     (
@@ -28,10 +27,9 @@ public abstract class Walker {
     );
 
 
-    public Walker(int [] coords, Direction direction) {
+    public Walker(int [] coords) {
         this.coords = coords;
-        this.direction = direction;
-        this.entryDirection = direction;
+        this.direction = Direction.RIGHT;
     }
 
     /**
@@ -86,12 +84,12 @@ public abstract class Walker {
      * Gets the direction opposite to the walker's entry direction.
      * @return the opposite direction
      */
-    protected Direction flipEntryDirection() {
-        if (this.entryDirection == Direction.RIGHT) {
-            return Direction.LEFT;
-        }
-        return Direction.RIGHT;
-    }
+    // protected Direction flipEntryDirection() {
+    //     if (this.entryDirection == Direction.RIGHT) {
+    //         return Direction.LEFT;
+    //     }
+    //     return Direction.RIGHT;
+    // }
 
 
     /**
