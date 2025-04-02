@@ -19,38 +19,31 @@ public class Maze implements WalkerStatus {
 
     public Maze(MazeBlock [][] maze) {
         this.maze = maze;
-        this.initializeStartEndCoords();
+        this.startCoords = this.findWestOpening();
+        this.endCoords = this.findEastOpening();
         
     }
-    
-    /**
-     * Sets the starting and ending coordinates of the maze based on its layout.
-     * 
-     * This method scans the first and last columns of the maze to identify openings
-     * (represented by spaces) that serve as potential entry and exit points. It assigns
-     * these coordinates to the start and end positions. The start and end coordinates
-     * are randomly assigned between these identified openings to simulate different
-     * entry and exit scenarios.
-     */
-    public void initializeStartEndCoords() {
 
-        // Preparing start and end coordinates
-        int [] rightOpening = new int[2];
-        int [] leftOpening = new int[2];
-
-        // Identifying the opening in the first and last columns
-        for (int i = 0; i < maze.length; i++) {
-            
-            if (!(maze[i][0] == MazeBlock.WALL)) {
-                this.startCoords[0] = i;
-                this.startCoords[1] = 0;
-            }
-
-            if (!(maze[i][maze[i].length - 1] == MazeBlock.WALL)) {
-                this.endCoords[0] = i;
-                this.endCoords[1] = maze[0].length - 1;
+    public int[] findWestOpening() {
+        int i;
+        for (i = 0; i < maze.length; i++) {
+            if (maze[i][0] == MazeBlock.PASS) {
+                break;
             }
         }
+
+        return new int[]{i, 0};
+    }
+
+    public int[] findEastOpening() {
+        int i;
+        for (i = 0; i < maze.length; i++) {
+            if (maze[i][maze[i].length - 1] == MazeBlock.PASS) {
+                break;
+            }   
+        }
+
+        return new int[]{i, maze[i].length - 1};
     }
 
     /**
@@ -60,6 +53,10 @@ public class Maze implements WalkerStatus {
      */
     public int[] getStartCoords() {
         return this.startCoords;
+    }
+
+    public int[] getEndCoords() {
+        return this.endCoords;
     }
 
     /**

@@ -24,7 +24,6 @@ public class Configuration {
      */
     public Maze getConfiguredMaze() {
         Maze maze = new Maze(contents);
-        maze.initializeStartEndCoords();
         return maze;
     }
 
