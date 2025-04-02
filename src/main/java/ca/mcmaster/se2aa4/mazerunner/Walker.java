@@ -15,19 +15,19 @@ import java.util.Map;
 
 public abstract class Walker {
     
-    protected int[] coords = new int[2];
+    protected Coordinates coords;
     protected Direction direction;
     protected final InstructionCleaner instructionCleaner = new InstructionCleaner();
-    protected HashMap<Direction, int[]> directionVectorMap = new HashMap<>(Map.of
+    protected HashMap<Direction, Coordinates> directionVectorMap = new HashMap<>(Map.of
     (
-        Direction.RIGHT, new int[]{0, 1},
-        Direction.DOWN, new int[]{1, 0},
-        Direction.LEFT, new int[]{0, -1},
-        Direction.UP, new int[]{-1, 0})
-    );
+        Direction.RIGHT, new Coordinates(0, 1),
+        Direction.DOWN, new Coordinates(1, 0),
+        Direction.LEFT, new Coordinates(0, -1),
+        Direction.UP, new Coordinates(-1, 0)
+    ));
 
 
-    public Walker(int [] coords) {
+    public Walker(Coordinates coords) {
         this.coords = coords;
         this.direction = Direction.RIGHT;
     }
@@ -47,6 +47,10 @@ public abstract class Walker {
   
         return Direction.RIGHT;
     }
+
+    public Coordinates getDirectionVector(Direction direction) {
+        return this.directionVectorMap.get(direction);
+    } 
 
     /**
      * Gets the direction to the right of the walker's current direction.
@@ -97,8 +101,8 @@ public abstract class Walker {
      * This can be used to undo the walker's last move.
      */
     protected void stepBack() {
-        this.coords[0] -= this.directionVectorMap.get(this.direction)[0];
-        this.coords[1] -= this.directionVectorMap.get(this.direction)[1];
+        this.coords.setX(this.coords.getX() - this.directionVectorMap.get(this.direction).getX());
+        this.coords.setY(this.coords.getY() - this.directionVectorMap.get(this.direction).getY());
     }
 
     /**
@@ -106,8 +110,12 @@ public abstract class Walker {
      * This method should be called after the walker has confirmed that it is not hitting a wall.
      */
      protected void moveForward() {
-        this.coords[0] += this.directionVectorMap.get(this.direction)[0];
-        this.coords[1] += this.directionVectorMap.get(this.direction)[1];
+        this.coords.setX(this.coords.getX() + this.directionVectorMap.get(this.direction).getX());
+        this.coords.setY(this.coords.getY() + this.directionVectorMap.get(this.direction).getY());
+    }
+
+    public Coordinates getCoords() {
+        return this.coords;
     }
 
     protected abstract String walk(Maze maze);

@@ -25,18 +25,26 @@ public class Configuration {
      */
     public Walker getConfiguredWalker(Maze maze) {
         Direction walkerStartDirection = Direction.LEFT;
-        int [] walkerStartCoords = {maze.getStartCoords()[0], maze.getStartCoords()[1]};
-        int walkerStartingColumn = walkerStartCoords[1];
-
-        if (walkerStartingColumn == 0) {
-            walkerStartDirection = Direction.RIGHT;
-        } 
+        Coordinates walkerStartCoords = maze.getStartCoords();
 
         if (this.userInstructions != null) {
             return new InstructedWalker(walkerStartCoords, walkerStartDirection, this.userInstructions);
         }
 
         return new FreeWalker(walkerStartCoords, walkerStartDirection);
+
+        // int [] walkerStartCoords = {maze.getStartCoords()[0], maze.getStartCoords()[1]};
+        // int walkerStartingColumn = walkerStartCoords[1];
+
+        // if (walkerStartingColumn == 0) {
+        //     walkerStartDirection = Direction.RIGHT;
+        // } 
+
+        // if (this.userInstructions != null) {
+        //     return new InstructedWalker(walkerStartCoords, walkerStartDirection, this.userInstructions);
+        // }
+
+        // return new FreeWalker(walkerStartCoords, walkerStartDirection);
          
     }
 }

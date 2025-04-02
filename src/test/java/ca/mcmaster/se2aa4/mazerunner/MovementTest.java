@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,7 @@ public class MovementTest {
      */
     @BeforeEach
     public void setup() {
-        walker = new FreeWalker(new int[]{1, 0}, Direction.RIGHT);
+        walker = new FreeWalker(new Coordinates(1, 0), Direction.RIGHT);
     }
 
     /**
@@ -23,10 +21,10 @@ public class MovementTest {
      */
     @Test
     public void testMove() {
-        int [] forwardPosition = new int[]{1, 1};
+        Coordinates forwardPosition = new Coordinates(1, 1);
         walker.moveForward();
 
-        boolean equivalent = Arrays.equals(forwardPosition, walker.coords);
+        boolean equivalent =forwardPosition.equals(walker.getCoords());
         assertTrue(equivalent);
     }
 
@@ -57,8 +55,8 @@ public class MovementTest {
     public void testMoveUp() {
         walker.turnLeft();
         walker.moveForward();
-        int [] forwardPosition = new int[]{0, 0};
-        boolean equivalent = Arrays.equals(forwardPosition, walker.coords);
+        Coordinates forwardPosition = new Coordinates(0, 0);
+        boolean equivalent = forwardPosition.equals(walker.getCoords());
         assertTrue(equivalent);
     }
 
@@ -69,8 +67,8 @@ public class MovementTest {
     public void testMoveDown() {
         walker.turnRight();
         walker.moveForward();
-        int [] forwardPosition = new int[]{2, 0};
-        boolean equivalent = Arrays.equals(forwardPosition, walker.coords);
+        Coordinates forwardPosition = new Coordinates(2, 0);
+        boolean equivalent = forwardPosition.equals(walker.getCoords());
         assertTrue(equivalent);
     }
 }

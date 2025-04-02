@@ -12,7 +12,7 @@ public class InstructedWalker extends Walker {
     private String instructions;
     private boolean attemptedBothEnds;
 
-    public InstructedWalker(int [] coords, Direction direction, String instructions) {
+    public InstructedWalker(Coordinates coords, Direction direction, String instructions) {
         super(coords);
         this.instructions = instructions;
         this.attemptedBothEnds = false;

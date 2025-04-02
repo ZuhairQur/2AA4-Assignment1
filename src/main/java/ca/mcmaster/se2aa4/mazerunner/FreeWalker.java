@@ -8,7 +8,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class FreeWalker extends Walker {
-    public FreeWalker(int[] coords, Direction direction) {
+    public FreeWalker(Coordinates coords, Direction direction) {
         super(coords);
     }
 

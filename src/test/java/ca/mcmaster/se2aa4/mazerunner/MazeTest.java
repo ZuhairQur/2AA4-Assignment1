@@ -1,7 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.apache.commons.cli.ParseException;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,7 +33,7 @@ public class MazeTest {
      */
     @Test
     public void testStartCoordinates() {
-        boolean equivalent = Arrays.equals(new int[]{21, 0}, maze.getStartCoords());
+        boolean equivalent = new Coordinates(21, 0).equals(maze.getStartCoords());
         assertTrue(equivalent);
     }
 
@@ -45,8 +44,7 @@ public class MazeTest {
      */
     @Test
     public void testEndCoordinates() {
-        maze.enterOtherSide(new InstructedWalker(new int[]{0,0}, Direction.DOWN, "")); // use random parameters for InstructedWalker (unimportant for testing)
-        boolean equivalent = Arrays.equals(new int[]{53, 150}, maze.getStartCoords());
+        boolean equivalent =  new Coordinates(53, 150).equals(maze.getEndCoords()); 
         assertTrue(equivalent);
     }
 }
