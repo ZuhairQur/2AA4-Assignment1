@@ -10,11 +10,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,29 +54,13 @@ public class InputHandler {
         options.addOption(path);
     }
 
-    /**
-     * Reads the input from the command line arguments and prepares the maze contents.
-     * 
-     * This method reads the command line arguments and prepares the maze contents based on the input
-     * file and instructions provided. The input file must be specified, after which this method reads
-     * the file and sets up the maze contents accordingly.
-     * 
-     * @param args the command line arguments
-     * @return the configured maze file contents in a character by character array
-     */
-    public MazeBlock[][] readInput(String[] args) throws IOException, IllegalArgumentException, ParseException {
-   
+    public String getFilename(String [] args) throws ParseException {
         this.command = parser.parse(options, args);
+        return this.command.getOptionValue("i");
+    }
 
-        String filename = this.command.getOptionValue("i");
-
-        Path path = Path.of(filename);
-        int totalLineCount = (int) Files.lines(path).count();     
-        this.contents = new MazeBlock[totalLineCount][];
-
-        this.readMaze(filename);
-
-        // Read in instructions (if present) and verify that they are valid
+    public String getInstructions(String [] args) throws ParseException {
+        this.command = parser.parse(options, args);
         if (this.command.hasOption("p")) {
             InstructionCleaner instructionCleaner = new InstructionCleaner();
             this.instructions = instructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
@@ -91,59 +70,7 @@ public class InputHandler {
             }
         }
         
-
-        return this.contents;
-    }
-    
-    /**
-     * Reads the maze data from the specified file and configures the maze contents array
-     * accordingly.
-     * 
-     * This method reads the maze data from the specified file and sets up the contents array
-     * with the maze layout. The maze data is read line by line and the contents array is populated
-     * with the characters contained in the file.
-     * 
-     * @param filename the name of the file containing the maze data
-     * @throws FileNotFoundException if the specified file does not exist
-     * @throws IOException if an error occurs while reading the file
-     */
-    private void readMaze(String filename) throws IOException  {
-        this.reader = new BufferedReader(new FileReader(filename));
-        String line;
-        StringBuilder mazeText = new StringBuilder();
-        int lineNumber = 0;
-        int maxLineLength = 0;
-
-        while ((line = this.reader.readLine()) != null) {
-
-            // Identifying the longest line (corresponds to the width of the maze)
-            if (line.length() > maxLineLength) {
-                maxLineLength = line.length();
-            }
-
-            for (int idx = 0; idx < line.length(); idx++) {
-                char currentChar = line.charAt(idx);
-                mazeText.append(currentChar);
-                if (currentChar != ' ' && currentChar != '#') {
-                    throw new IOException("Maze contains invalid characters.");
-                }
-            }
-
-            // Handling the edge case where line contains null space at the end
-            int emptyCharCount = maxLineLength - line.length();
-            if (emptyCharCount > 0) {
-                for (int i = 0; i < emptyCharCount; i++) {
-                    line += " ";
-                }
-            }
-            this.contents[lineNumber] = this.toMazeBlockArray(line);
-            lineNumber++;
-            mazeText.append("\n");
-        }
-
-        this.logger.info("\nMaze:\n"+mazeText.toString());
-
-        this.reader.close();
+        return this.instructions;
     }
 
     /**
@@ -188,15 +115,6 @@ public class InputHandler {
         }
 
         return mazeBlocks;
-    }
-
-    /**
-     * Retrieves the instructions provided by the user when running the program.
-     * These instructions are used by the InstructedWalker class to navigate the maze.
-     * @return the instructions to navigate the maze
-     */
-    public String getInstructions() {
-        return this.instructions;
     }
 
 }

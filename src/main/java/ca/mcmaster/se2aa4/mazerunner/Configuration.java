@@ -11,20 +11,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class Configuration {
     private final String userInstructions;
-    private final MazeBlock[][] contents;
 
-    public Configuration(MazeBlock [][] contents, String userInstructions) {
+    public Configuration(String userInstructions) {
         this.userInstructions = userInstructions;
-        this.contents = contents;
-    }
-
-    /**
-     * Returns the configured maze object. 
-     * @return the configured maze object
-     */
-    public Maze getConfiguredMaze() {
-        Maze maze = new Maze(contents);
-        return maze;
     }
 
     /**

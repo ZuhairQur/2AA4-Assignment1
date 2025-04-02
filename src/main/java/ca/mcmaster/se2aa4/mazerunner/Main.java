@@ -35,9 +35,9 @@ public class Main {
 
         // Setting up walking skeleton and executing
         try {
-            MazeBlock[][] contents = inputHandler.readInput(args);
-            Configuration configuration = new Configuration(contents, inputHandler.getInstructions());
-            Maze maze = configuration.getConfiguredMaze();
+            MazeReader mazeReader = new MazeReader(inputHandler.getFilename(args));
+            Configuration configuration = new Configuration(inputHandler.getInstructions(args));
+            Maze maze = mazeReader.getMaze();
             Walker walker = configuration.getConfiguredWalker(maze); // walker can enter either entry or exit
             String walkingResults = walker.walk(maze);
             System.out.println(walkingResults);

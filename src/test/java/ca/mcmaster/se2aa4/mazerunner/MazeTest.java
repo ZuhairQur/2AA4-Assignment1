@@ -23,8 +23,8 @@ public class MazeTest {
         inputHandler = new InputHandler();
         inputHandler.setOptions();
         String [] args = {"-i", "./examples/giant.maz.txt"};
-        config = new Configuration(inputHandler.readInput(args), inputHandler.getInstructions());
-        maze = config.getConfiguredMaze();
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        maze = mazeReader.getMaze();
     }    
 
     /**

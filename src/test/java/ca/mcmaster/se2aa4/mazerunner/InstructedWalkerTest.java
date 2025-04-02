@@ -31,13 +31,12 @@ public class InstructedWalkerTest {
     public void testWalk_correct_simple() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/straight.maz.txt", "-p", "FFFF"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
-        Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        Maze maze = mazeReader.getMaze();
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
-
         assertEquals("correct path", results);
     }
 
@@ -49,13 +48,12 @@ public class InstructedWalkerTest {
     public void testWalk_incorrect_simple() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/straight.maz.txt", "-p", "FFF"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
-        Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        Maze maze = mazeReader.getMaze();
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
-
         assertEquals("incorrect path", results);
     }
 
@@ -67,13 +65,12 @@ public class InstructedWalkerTest {
     public void testWalk_correct_complex() throws IOException, ParseException, IllegalArgumentException {
         String[] args = {"-i", "./examples/small.maz.txt", "-p", "F R F 2L 2F R 2F R 2F 2L 4F R 2F R 4F 2L 2F R 4F R 2F R 2F 2L 2F L 2F L 4F R 2F R 2F 2L 4F R 2F R 2F 2L 2F R 2F R 4F R 2F L 2F R 2F L F"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
-        Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        Maze maze = mazeReader.getMaze();
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
-
         assertEquals("correct path", results);
     }
 
@@ -86,13 +83,12 @@ public class InstructedWalkerTest {
     public void testWalk_incorrect_complex() throws IOException, ParseException, IllegalArgumentException {
         String[] args = {"-i", "./examples/small.maz.txt", "-p", "3F"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
-        Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        Maze maze = mazeReader.getMaze();
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
-
         assertEquals("incorrect path", results);
     }
 }

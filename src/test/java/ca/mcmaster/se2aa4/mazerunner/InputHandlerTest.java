@@ -30,7 +30,9 @@ public class InputHandlerTest {
     @Test
     public void testInputDimensions() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt"};
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+
+        MazeBlock[][] mazeContents = mazeReader.readMaze();
         assertEquals(7, mazeContents.length);
         assertEquals(8, mazeContents[0].length);
     }
@@ -43,8 +45,7 @@ public class InputHandlerTest {
      */
     public void testGetInstructions() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt", "-p", "4F"};
-        inputHandler.readInput(args);
-        String instructions = inputHandler.getInstructions();
+        String instructions = inputHandler.getInstructions(args);
         assertEquals("FFFF", instructions);
     }
 
@@ -57,7 +58,8 @@ public class InputHandlerTest {
     @Test
     public void testMazeReading() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt"};
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
+        MazeReader reader = new MazeReader(inputHandler.getFilename(args));
+        MazeBlock[][] mazeContents = reader.readMaze();
         
         MazeBlock[][] expectedContents = new MazeBlock[][] {
             {MazeBlock.WALL, MazeBlock.WALL, MazeBlock.WALL, MazeBlock.WALL, MazeBlock.WALL, MazeBlock.WALL, MazeBlock.WALL, MazeBlock.WALL},
@@ -82,9 +84,10 @@ public class InputHandlerTest {
     public void testNonexistentFile() throws ParseException, IllegalArgumentException {
         
         String [] args = {"-i", "./examples/nonexistent.maz.txt"};
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
         boolean exceptionThrown = false;
         try {
-            inputHandler.readInput(args);
+            mazeReader.getMaze();
         } catch (IOException e) {
             exceptionThrown = true;
         }
@@ -100,9 +103,10 @@ public class InputHandlerTest {
     public void testInvalidInstructions() throws IOException, ParseException {
         
         String [] args = {"-i", "./examples/direct.maz.txt", "-p", "ABCDEFGHI"};
+
         boolean exceptionThrown = false;
         try {
-            inputHandler.readInput(args);
+            inputHandler.getInstructions(args);
         } catch (IllegalArgumentException e) {
             exceptionThrown = true;
         }
@@ -121,7 +125,7 @@ public class InputHandlerTest {
         String [] args = {"-g", "./examples/direct.maz.txt"};
         boolean exceptionThrown = false;
         try {
-            inputHandler.readInput(args);
+            inputHandler.getInstructions(args);
         } catch (ParseException e) {
             exceptionThrown = true;
         }

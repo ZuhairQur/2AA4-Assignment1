@@ -27,9 +27,10 @@ public class FreeWalkerTest {
     public void testWalk_straight() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/straight.maz.txt"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        MazeBlock[][] mazeContents = mazeReader.readMaze();
         Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
@@ -45,9 +46,10 @@ public class FreeWalkerTest {
     public void testWalk_direct() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        MazeBlock[][] mazeContents = mazeReader.readMaze();
         Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
@@ -61,14 +63,12 @@ public class FreeWalkerTest {
     @Test 
     public void testWalk_tiny() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/tiny.maz.txt"};
-
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
-        Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        Maze maze = mazeReader.getMaze();
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
-
         assertEquals("5F 2L 2F R 2F R 2F 2L 2F R 2F R 3F ", results);
     }
 
@@ -82,9 +82,9 @@ public class FreeWalkerTest {
     public void testWalk_small() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/small.maz.txt"};
 
-        MazeBlock[][] mazeContents = inputHandler.readInput(args);
-        Maze maze = new Maze(mazeContents);
-        config = new Configuration(mazeContents, inputHandler.getInstructions());
+        MazeReader mazeReader = new  MazeReader(inputHandler.getFilename(args));
+        Maze maze = mazeReader.getMaze();
+        config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
         String results = walker.walk(maze);
