@@ -13,12 +13,24 @@ public class MazeReader {
         this.filename = filename;
     }
 
+    /**
+     * Reads the maze file and returns a Maze object based on the contents. 
+     * @return a Maze object representing the contents of the file
+     * @throws IOException if the file is not found or does not contain a valid maze
+     */
     public Maze getMaze() throws IOException {
         MazeBlock[][] contents = this.readMaze();
         Maze maze = new Maze(contents);
         return maze;
     }
 
+    /**
+     * Reads the maze file and returns a 2D array of MazeBlock enums
+     * representing the maze structure. Throws an IOException if the file
+     * is not found or contains invalid characters.
+     * @return a 2D array of MazeBlock enums representing the maze structure
+     * @throws IOException if the file is not found or does not contain a valid maze
+     */
     protected MazeBlock[][] readMaze() throws IOException {
         Path path = Path.of(filename);
         int totalLineCount = (int) Files.lines(path).count();     
@@ -62,6 +74,11 @@ public class MazeReader {
         return contents;
     }
 
+/**
+ * Converts a string of maze symbols into an array of MazeBlock enums.
+ * @param mazeSymbols the string containing the maze symbols to convert
+ * @return an array of MazeBlock enums representing the maze structure
+ */
     private MazeBlock [] toMazeBlockArray(String mazeSymbols) {
         char [] mazeChars = mazeSymbols.toCharArray();
         MazeBlock [] mazeBlocks = new MazeBlock[mazeChars.length];

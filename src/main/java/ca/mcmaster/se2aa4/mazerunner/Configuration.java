@@ -9,6 +9,12 @@
 
 package ca.mcmaster.se2aa4.mazerunner;
 
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.FreeWalker;
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.InstructedWalker;
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.MazeSolvingAlgorithm;
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.RightHandAlgorithm;
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.Walker;
+
 public class Configuration {
     private final String userInstructions;
 
@@ -19,32 +25,16 @@ public class Configuration {
     /**
      * Returns the configured walker object. If instructions were provided, the walker is configured
      * to follow the instructions. Otherwise, the walker is configured to navigate the maze freely.
-     * The walker's direction is determined by the start column of the maze: if the column is 0, the
-     * walker faces right; if the column is non-zero, the walker faces left.
      * @return the configured walker object
      */
     public Walker getConfiguredWalker(Maze maze) {
-        Direction walkerStartDirection = Direction.LEFT;
-        Coordinates walkerStartCoords = maze.getStartCoords();
+        Coordinates walkerStartCoords = maze.getStartCoords().copy();
 
         if (this.userInstructions != null) {
-            return new InstructedWalker(walkerStartCoords, walkerStartDirection, this.userInstructions);
+            return new InstructedWalker(walkerStartCoords, maze, this.userInstructions);
         }
 
-        return new FreeWalker(walkerStartCoords, walkerStartDirection);
-
-        // int [] walkerStartCoords = {maze.getStartCoords()[0], maze.getStartCoords()[1]};
-        // int walkerStartingColumn = walkerStartCoords[1];
-
-        // if (walkerStartingColumn == 0) {
-        //     walkerStartDirection = Direction.RIGHT;
-        // } 
-
-        // if (this.userInstructions != null) {
-        //     return new InstructedWalker(walkerStartCoords, walkerStartDirection, this.userInstructions);
-        // }
-
-        // return new FreeWalker(walkerStartCoords, walkerStartDirection);
-         
+        MazeSolvingAlgorithm algorithm = new RightHandAlgorithm();
+        return new FreeWalker(walkerStartCoords, maze, algorithm);
     }
 }

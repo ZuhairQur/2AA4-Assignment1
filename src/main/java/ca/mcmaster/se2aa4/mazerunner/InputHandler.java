@@ -9,7 +9,6 @@
 
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,18 +18,13 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class InputHandler {
-    private BufferedReader reader;
     private final Options options;
-    private MazeBlock[][] contents;
     private CommandLine command;
     private String instructions;
     private final CommandLineParser parser;
     private final List <Character> canonicalInstructions = Arrays.asList('F', 'L', 'R');
-    private final Logger logger = LogManager.getLogger();
 
     public InputHandler() {
         this.options = new Options();
@@ -54,11 +48,24 @@ public class InputHandler {
         options.addOption(path);
     }
 
+    /**
+     * Parses the command-line arguments to retrieve the input filename specified by the user.
+     * @param args the command-line arguments containing the options and their respective values
+     * @return the input filename specified by the '-i' option
+     * @throws ParseException if the command-line arguments cannot be parsed
+     */
     public String getFilename(String [] args) throws ParseException {
         this.command = parser.parse(options, args);
         return this.command.getOptionValue("i");
     }
 
+    /**
+     * Parses the command-line arguments to retrieve the instructions specified by the user.
+     * @param args the command-line arguments containing the options and their respective values
+     * @return the instructions specified by the '-p' option. If the instructions contain any
+     * invalid characters, an IllegalArgumentException is thrown.
+     * @throws ParseException if the command-line arguments cannot be parsed
+     */
     public String getInstructions(String [] args) throws ParseException {
         this.command = parser.parse(options, args);
         if (this.command.hasOption("p")) {
@@ -75,8 +82,7 @@ public class InputHandler {
 
     /**
      * Verifies that the unraveled instructions provided by the user contain only canonical
-     * characters ('F', 'L', 'R'). If the instructions contain any other characters,
-     * this method returns false. Otherwise, it returns true.
+     * characters ('F', 'L', 'R').
      * @return true if the instructions are canonically valid, false otherwise
      */
     private boolean hasValidInstructions() {
@@ -87,34 +93,6 @@ public class InputHandler {
             }
         }
         return true;
-    }
-
-    /**
-     * Converts a string of maze symbols into an array of MazeBlock enums.
-     * 
-     * This method takes a string where each character represents a maze element, 
-     * with '#' indicating a wall and any other character indicating a passable path. 
-     * It returns an array of MazeBlock enums corresponding to these symbols.
-     *
-     * @param mazeSymbols the string containing the symbols of the maze
-     * @return an array of MazeBlock enums representing the maze layout on that line
-     */
-
-    private MazeBlock [] toMazeBlockArray(String mazeSymbols) {
-        char [] mazeChars = mazeSymbols.toCharArray();
-        MazeBlock [] mazeBlocks = new MazeBlock[mazeChars.length];
-        MazeBlock block;
-
-        for (int i = 0; i < mazeChars.length; i++) {
-            block = MazeBlock.PASS;
-            
-            if (mazeChars[i] == '#') {
-                block = MazeBlock.WALL;
-            }
-            mazeBlocks[i] = block;
-        }
-
-        return mazeBlocks;
     }
 
 }

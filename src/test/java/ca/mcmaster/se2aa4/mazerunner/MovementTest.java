@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.FreeWalker;
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.RightHandAlgorithm;
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.Walker;
+
 public class MovementTest {
     private Walker walker;
 
@@ -13,7 +17,8 @@ public class MovementTest {
      */
     @BeforeEach
     public void setup() {
-        walker = new FreeWalker(new Coordinates(1, 0), Direction.RIGHT);
+        Maze maze = new Maze(new MazeBlock[][]{{MazeBlock.PASS}, {MazeBlock.WALL}});
+        walker = new FreeWalker(new Coordinates(1, 0), maze, new RightHandAlgorithm());
     }
 
     /**
@@ -34,7 +39,7 @@ public class MovementTest {
     @Test
     public void testTurnLeft() {
         walker.turnLeft();
-        boolean equivalent = walker.direction == Direction.UP;
+        boolean equivalent = walker.getDirection() == Direction.UP;
         assertTrue(equivalent);
     }
 
@@ -44,7 +49,7 @@ public class MovementTest {
     @Test
     public void testTurnRight() {
         walker.turnRight();
-        boolean equivalent = walker.direction == Direction.DOWN;
+        boolean equivalent = walker.getDirection() == Direction.DOWN;
         assertTrue(equivalent);
     }
 

@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.Walker;
+
 
 
 public class InstructedWalkerTest {
@@ -36,7 +38,7 @@ public class InstructedWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
         assertEquals("correct path", results);
     }
 
@@ -53,7 +55,7 @@ public class InstructedWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
         assertEquals("incorrect path", results);
     }
 
@@ -70,7 +72,7 @@ public class InstructedWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
         assertEquals("correct path", results);
     }
 
@@ -88,7 +90,7 @@ public class InstructedWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
         assertEquals("incorrect path", results);
     }
 }

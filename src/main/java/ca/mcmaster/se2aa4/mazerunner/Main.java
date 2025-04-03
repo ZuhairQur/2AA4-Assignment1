@@ -12,17 +12,17 @@ import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.Walker;
+
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
 
 /**
- * The method that drives the Maze Runner Application.
- *
+ * Method that drives the Maze Runner Application.
  * Centralizes the application by directing: processing of command-line arguments,
  * reading of maze data, configuration of the maze and walker, and walker
- * navigation through the maze. The results of the navigation are logged.
- *
+ * navigation through the maze.
  * @param args command line arguments, expected to include options for input
  *             maze file and optional instructions for the walker.
  */
@@ -35,11 +35,12 @@ public class Main {
 
         // Setting up walking skeleton and executing
         try {
+
             MazeReader mazeReader = new MazeReader(inputHandler.getFilename(args));
             Configuration configuration = new Configuration(inputHandler.getInstructions(args));
             Maze maze = mazeReader.getMaze();
             Walker walker = configuration.getConfiguredWalker(maze); // walker can enter either entry or exit
-            String walkingResults = walker.walk(maze);
+            String walkingResults = walker.walk();
             System.out.println(walkingResults);
         } catch (IOException e ) {
             System.err.println("The specified maze file " + e.getMessage() + " could not be found.");

@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.WalkStrategies.Walker;
+
 public class FreeWalkerTest {
     private Walker walker;
     private Configuration config;
@@ -33,7 +35,7 @@ public class FreeWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
 
         assertEquals("4F ", results);
     }
@@ -52,7 +54,7 @@ public class FreeWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
 
         assertEquals("F R 2F L 3F R F L F R F L 2F ", results);
     }
@@ -68,7 +70,7 @@ public class FreeWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
         assertEquals("5F 2L 2F R 2F R 2F 2L 2F R 2F R 3F ", results);
     }
 
@@ -87,7 +89,7 @@ public class FreeWalkerTest {
         config = new Configuration(inputHandler.getInstructions(args));
         walker = config.getConfiguredWalker(maze);
 
-        String results = walker.walk(maze);
+        String results = walker.walk();
         assertEquals("F R F 2L 2F R 2F R 2F 2L 4F R 2F R 4F 2L 2F R 4F R 2F R 2F 2L 2F L 2F L 4F R 2F R 2F 2L 4F R 2F R 2F 2L 2F R 2F R 4F R 2F L 2F R 2F L F ", results);
     }
 

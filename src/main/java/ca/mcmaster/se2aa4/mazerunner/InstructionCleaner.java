@@ -17,12 +17,6 @@ public class InstructionCleaner {
 
     /**
      * Factors a string of walking instructions by grouping consecutive instructions.
-     * 
-     * This method removes all whitespace from the input string, and then 
-     * processes the instructions to factor sequences of consecutive instructions.
-     * Each sequence of one or more consecutive instructions is replaced with a number representing
-     * the count followed by that instruction.
-     *
      * @param unfactoredInstructions the original string of walking instructions
      * @return a string with factored walking instructions
      */
@@ -66,12 +60,8 @@ public class InstructionCleaner {
 
 
     /**
-     * Expands a string of walking instructions by replacing factored 'F' instructions
-     * with that many 'F' instructions. Used for ease of processing in Walker objects.
-     * 
      * This method takes a string of factored instructions, removes all whitespace, and
      * processes the instructions to expand sequences of canonical ('F', 'L', 'R') instructions.
-     *
      * @param factoredInstructions the string of factored walking instructions
      * @return a string with unfactored walking instructions
      */
