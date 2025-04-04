@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.awt.image.DirectColorModel;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,6 @@ import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
 public class MovementTest {
     private CoordinatesTracker coordinatesTracker;
     private DirectionManager directionManager;
-    private Direction startDirection;
 
     /**
      * Sets up the walker for each test, placing it at position (1,0) and

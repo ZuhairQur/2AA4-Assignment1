@@ -10,18 +10,18 @@
 
 package ca.mcmaster.se2aa4.mazerunner.Command;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
 import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
 
-public class MovementList {
+public class MovementSequence {
     private String instructions;
-    private List<Movement> movementList = new ArrayList<>();
+    private Queue<Movement> movementList = new LinkedList<>();
     
-    public MovementList(String instructions) {
+    public MovementSequence(String instructions) {
         this.instructions = instructions;
     }
 
@@ -51,7 +51,7 @@ public class MovementList {
      * @return the next Movement object in the list
      */
     public Movement nextMovement() {
-        return movementList.remove(0);
+        return movementList.remove();
     }
 
     /**

@@ -29,7 +29,6 @@ public class RightHandAlgorithm  implements MazeSolvingAlgorithm {
     public String solveMaze(CoordinatesTracker coordinatesTracker, DirectionManager directionManager, Maze maze) {
         StringBuilder instructions = new StringBuilder();
 
-
         Coordinates exitCoordinates = maze.getRightOpening();
 
         while (!coordinatesTracker.reachedEnd(exitCoordinates)) {

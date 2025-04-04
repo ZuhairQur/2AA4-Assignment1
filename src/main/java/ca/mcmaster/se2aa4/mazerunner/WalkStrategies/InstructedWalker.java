@@ -8,7 +8,7 @@
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
 import ca.mcmaster.se2aa4.mazerunner.Command.Movement;
-import ca.mcmaster.se2aa4.mazerunner.Command.MovementList;
+import ca.mcmaster.se2aa4.mazerunner.Command.MovementSequence;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
 import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
@@ -63,7 +63,7 @@ public class InstructedWalker implements Walker {
         CoordinatesTracker coordinatesTracker = new CoordinatesTracker(startCoordinates.copy());
         DirectionManager directionManager = new DirectionManager(startDirection);
 
-        MovementList movementList = new MovementList(this.instructions);
+        MovementSequence movementList = new MovementSequence(this.instructions);
         movementList.generateMovements(coordinatesTracker, directionManager, this.maze);
 
         while (!movementList.isEmpty()) {

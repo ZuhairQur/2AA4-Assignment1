@@ -47,6 +47,7 @@ public class InputHandlerTest {
      * the input arguments. The test provides a short instruction sequence
      * "4F" and expects it to be expanded to "FFFF" by the InputHandler.
      */
+    @Test
     public void testGetInstructions() throws IOException, ParseException, IllegalArgumentException {
         String [] args = {"-i", "./examples/direct.maz.txt", "-p", "4F"};
         String instructions = inputHandler.getInstructions(args);
