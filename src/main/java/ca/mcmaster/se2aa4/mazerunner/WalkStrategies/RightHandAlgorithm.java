@@ -2,9 +2,10 @@ package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
 import ca.mcmaster.se2aa4.mazerunner.Coordinates;
 import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
-public class RightHandAlgorithm  implements MazeSolvingAlgorithm{
+public class RightHandAlgorithm  implements MazeSolvingAlgorithm {
     
     /**
      * Solves the maze by using the right-hand rule, which moves the walker forward until it hits a wall.
@@ -14,28 +15,27 @@ public class RightHandAlgorithm  implements MazeSolvingAlgorithm{
      * @return the instructions for the walker to follow to reach the end of the maze
      */
     @Override
-    public String solveMaze(CoordinatesTracker coordinatesManager, Maze maze) {
+    public String solveMaze(CoordinatesTracker coordinatesTracker, DirectionManager directionManager, Maze maze) {
         StringBuilder instructions = new StringBuilder();
 
-        Coordinates exitCoordinates = maze.getEndCoords();
 
-        while (!coordinatesManager.reachedEnd(exitCoordinates)) {
-            coordinatesManager.moveForward();
+        Coordinates exitCoordinates = maze.getRightOpening();
 
-            try {
-                if (coordinatesManager.hitWall(maze)) {
-                    coordinatesManager.stepBack();
-                    coordinatesManager.turnLeft();
-                    instructions.append("L");
-                } else {
-                    instructions.append("F");
-                }                  
-            } catch (IndexOutOfBoundsException e) {
-                coordinatesManager.stepBack();
-            }
+        while (!coordinatesTracker.reachedEnd(exitCoordinates)) {
+            boolean successful = new Forward(coordinatesTracker, directionManager, maze).execute();
 
-            if (!coordinatesManager.hasWallOnRight(maze)) {
-                coordinatesManager.turnRight();
+            // Did not hit wall
+
+            if (successful) {
+                instructions.append("F");
+
+            } else {
+                new LeftTurn(directionManager).execute();
+                instructions.append("L");
+            }                  
+
+            if (coordinatesTracker.canPass(directionManager.onRight(), maze)) {
+                new RightTurn(directionManager).execute();
                 instructions.append("R");
             }
         }

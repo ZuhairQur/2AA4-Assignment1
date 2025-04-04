@@ -8,8 +8,9 @@
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
 import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
 public interface MazeSolvingAlgorithm {
-    public abstract String solveMaze(CoordinatesTracker coordinatesManager, Maze maze);
+    public abstract String solveMaze(CoordinatesTracker coordinatesTracker, DirectionManager directionManager, Maze maze);
 }

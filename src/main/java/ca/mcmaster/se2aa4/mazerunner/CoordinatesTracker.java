@@ -6,8 +6,6 @@ import java.util.Map;
 
 public class CoordinatesTracker {
     private Coordinates coordinates;
-    private Direction direction;
-
     private HashMap<Direction, Coordinates> directionVectorMap = new HashMap<>(Map.of
     (
         Direction.RIGHT, new Coordinates(0, 1),
@@ -16,70 +14,25 @@ public class CoordinatesTracker {
         Direction.UP, new Coordinates(-1, 0)
     ));
 
-    public CoordinatesTracker (Coordinates coordinates, Direction direction) {
+    public CoordinatesTracker (Coordinates coordinates) {
         this.coordinates = coordinates;
-        this.direction = direction;
     }
 
+    /**
+     * Retrieves the coordinates being tracked.
+     * @return the current Coordinates object representing the walker's position.
+     */
     public Coordinates getCoordinates() {
         return this.coordinates;
     }
 
-    public Direction getDirection() {
-        return this.direction;
-    }
-
-    public void moveForward() {
-        this.coordinates.setX(this.coordinates.getX() + this.directionVectorMap.get(this.direction).getX());
-        this.coordinates.setY(this.coordinates.getY() + this.directionVectorMap.get(this.direction).getY());
-    }
-
     /**
-     * Gets the direction to the left of the walker's current direction.
-     * @return the direction to the left of the walker's current direction
+     * Moves the walker one block in the specified direction.
+     * @param direction the direction in which to move the walker
      */
-    private Direction onLeft() {
-        if (this.direction == Direction.RIGHT) {
-            return Direction.UP;
-        } else if (this.direction == Direction.UP) {
-            return Direction.LEFT;
-        } else if (this.direction == Direction.LEFT) {
-            return Direction.DOWN;
-        }
-  
-        return Direction.RIGHT;
-    }
-
-    /**
-     * Gets the direction to the right of the walker's current direction.
-     * @return the direction to the right of the walker's current direction
-     */
-    private Direction onRight() {
-        if (this.direction == Direction.RIGHT) {
-            return Direction.DOWN;
-        } else if (this.direction == Direction.DOWN) {
-            return Direction.LEFT;
-        } else if (this.direction == Direction.LEFT) {
-            return Direction.UP;
-        }
-        
-        return Direction.RIGHT;
-    }
-
-    /**
-     * Turns the walker 90 degrees to the right, so that its current direction becomes
-     * the direction to the right of its current direction.
-     */
-    public void turnRight() {
-        this.direction = this.onRight();
-    }
-
-    /**
-     * Turns the walker 90 degrees to the left, so that its current direction becomes
-     * the direction to the left of its current direction.
-     */
-    public void turnLeft() {
-        this.direction = this.onLeft();
+    public void move(Direction direction) {
+        this.coordinates.setX(this.coordinates.getX() + this.directionVectorMap.get(direction).getX());
+        this.coordinates.setY(this.coordinates.getY() + this.directionVectorMap.get(direction).getY());
     }
 
     /**
@@ -90,16 +43,14 @@ public class CoordinatesTracker {
         return maze.getBlock(this.coordinates) == MazeBlock.WALL;
     }
 
-
     /**
      * Moves the walker one block in the opposite direction of the current direction.
      * This can be used to undo the walker's last move.
      */
-    public void stepBack() {
-        this.coordinates.setX(this.coordinates.getX() - this.directionVectorMap.get(this.direction).getX());
-        this.coordinates.setY(this.coordinates.getY() - this.directionVectorMap.get(this.direction).getY());
+    public void retreat(Direction direction) {
+        this.coordinates.setX(this.coordinates.getX() - this.directionVectorMap.get(direction).getX());
+        this.coordinates.setY(this.coordinates.getY() - this.directionVectorMap.get(direction).getY());
     }
-
 
 
     /**
@@ -107,12 +58,17 @@ public class CoordinatesTracker {
      * This is used to determine if the walker should turn right when following the right-hand rule.
      * @return true if the block to the right of the walker is a wall, false otherwise
      */
-    public boolean hasWallOnRight(Maze maze) {
-        Direction relativeRight = this.onRight();
-        Coordinates rightDirectionVector = this.directionVectorMap.get(relativeRight);//walker.directionVectorMap.get(relativeRight);
-        return maze.getBlock(this.coordinates.add(rightDirectionVector)) == MazeBlock.WALL;
+    public boolean canPass(Direction direction, Maze maze) {
+        Coordinates directionVector = this.directionVectorMap.get(direction);//walker.directionVectorMap.get(relativeRight);
+     
+        return maze.getBlock(this.coordinates.add(directionVector)) == MazeBlock.PASS;
     }
 
+    /**
+     * Checks if the walker is currently positioned at the end coordinates of the maze.
+     * @param endCoordinates the coordinates that the walker is trying to reach
+     * @return true if the walker has reached the end coordinates, false otherwise
+     */
     public boolean reachedEnd(Coordinates endCoordinates) {
         return this.coordinates.equals(endCoordinates);
     }

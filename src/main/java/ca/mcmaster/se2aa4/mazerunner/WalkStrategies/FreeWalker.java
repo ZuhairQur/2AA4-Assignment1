@@ -7,8 +7,10 @@
  */
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
+import ca.mcmaster.se2aa4.mazerunner.Coordinates;
 import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
 import ca.mcmaster.se2aa4.mazerunner.Direction;
+import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
 import ca.mcmaster.se2aa4.mazerunner.InstructionCleaner;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
@@ -30,9 +32,11 @@ public class FreeWalker implements Walker {
  */
     @Override
     public String walk() {
-        CoordinatesTracker coordinatesTracker = new CoordinatesTracker(this.maze.getStartCoords(), Direction.RIGHT);
-
-        String walkingInstructions = algorithm.solveMaze(coordinatesTracker, this.maze);
+        Coordinates walkerStartingPosition = this.maze.getLeftOpening().copy();
+        CoordinatesTracker coordinatesTracker = new CoordinatesTracker(walkerStartingPosition);
+        DirectionManager directionManager = new DirectionManager(Direction.RIGHT);
+        
+        String walkingInstructions = algorithm.solveMaze(coordinatesTracker, directionManager, this.maze);
         String cleanInstructions = InstructionCleaner.getFactoredInstructions(walkingInstructions);
         return cleanInstructions;
     }

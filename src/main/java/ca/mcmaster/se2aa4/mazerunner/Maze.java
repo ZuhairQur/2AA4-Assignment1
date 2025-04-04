@@ -14,13 +14,13 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class Maze {
     private final MazeBlock[][] maze;
-    private final Coordinates startCoords;
-    private final Coordinates endCoords;
+    private final Coordinates leftOpening;
+    private final Coordinates rightOpening;
 
     public Maze(MazeBlock [][] maze) {
         this.maze = maze;
-        this.startCoords = this.findLeftOpening();
-        this.endCoords = this.findRightOpening();
+        this.leftOpening = this.findLeftOpening();
+        this.rightOpening = this.findRightOpening();
         
     }
 
@@ -58,24 +58,24 @@ public class Maze {
      * Retrieves the starting coordinates of the maze.
      * @return an array containing the row and column indices of the start position
      */
-    public Coordinates getStartCoords() {
-        return this.startCoords;
+    public Coordinates getLeftOpening() {
+        return this.leftOpening;
     }
 
     /**
      * Retrieves the ending coordinates of the maze.
      * @return the coordinates of the end position
      */
-    public Coordinates getEndCoords() {
-        return this.endCoords;
+    public Coordinates getRightOpening() {
+        return this.rightOpening;
     }
 
     /**
      * Retrieves the block type at the specified coordinates within the maze.
-     * @param coords the coordinates of the block to retrieve
+     * @param coordinates the coordinates of the block to retrieve
      * @return the MazeBlock at the given coordinates
      */
-    public MazeBlock getBlock(Coordinates coords) {
-        return this.maze[coords.getX()][coords.getY()];
+    public MazeBlock getBlock(Coordinates coordinates) throws IndexOutOfBoundsException {
+        return this.maze[coordinates.getX()][coordinates.getY()];
     }
 }

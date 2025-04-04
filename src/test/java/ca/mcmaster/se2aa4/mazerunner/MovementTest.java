@@ -1,11 +1,15 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.awt.image.DirectColorModel;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MovementTest {
     private CoordinatesTracker coordinatesTracker;
+    private DirectionManager directionManager;
+    private Direction startDirection;
 
     /**
      * Sets up the walker for each test, placing it at position (1,0) and
@@ -13,7 +17,8 @@ public class MovementTest {
      */
     @BeforeEach
     public void setup() {
-        coordinatesTracker = new CoordinatesTracker(new Coordinates(1, 0), Direction.RIGHT);
+        coordinatesTracker = new CoordinatesTracker(new Coordinates(1, 0));
+        directionManager = new DirectionManager(Direction.RIGHT);
     }
 
     /**
@@ -22,7 +27,7 @@ public class MovementTest {
     @Test
     public void testMove() {
         Coordinates forwardPosition = new Coordinates(1, 1);
-        coordinatesTracker.moveForward();
+        coordinatesTracker.move(directionManager.getDirection());
 
         boolean equivalent = forwardPosition.equals(coordinatesTracker.getCoordinates());
         assertTrue(equivalent);
@@ -33,8 +38,8 @@ public class MovementTest {
      */
     @Test
     public void testTurnLeft() {
-        coordinatesTracker.turnLeft();
-        boolean equivalent = coordinatesTracker.getDirection() == Direction.UP;
+        directionManager.turnLeft();
+        boolean equivalent = directionManager.getDirection() == Direction.UP;
         assertTrue(equivalent);
     }
 
@@ -43,8 +48,8 @@ public class MovementTest {
      */
     @Test
     public void testTurnRight() {
-        coordinatesTracker.turnRight();
-        boolean equivalent = coordinatesTracker.getDirection() == Direction.DOWN;
+        directionManager.turnRight();
+        boolean equivalent = directionManager.getDirection() == Direction.DOWN;
         assertTrue(equivalent);
     }
 
@@ -53,8 +58,8 @@ public class MovementTest {
      */
     @Test
     public void testMoveUp() {
-        coordinatesTracker.turnLeft();
-        coordinatesTracker.moveForward();
+        directionManager.turnLeft();
+        coordinatesTracker.move(directionManager.getDirection());
         Coordinates forwardPosition = new Coordinates(0, 0);
         boolean equivalent = forwardPosition.equals(coordinatesTracker.getCoordinates());
         assertTrue(equivalent);
@@ -65,8 +70,8 @@ public class MovementTest {
      */
     @Test
     public void testMoveDown() {
-        coordinatesTracker.turnRight();
-        coordinatesTracker.moveForward();
+        directionManager.turnRight();
+        coordinatesTracker.move(directionManager.getDirection());
         Coordinates forwardPosition = new Coordinates(2, 0);
         boolean equivalent = forwardPosition.equals(coordinatesTracker.getCoordinates());
         assertTrue(equivalent);

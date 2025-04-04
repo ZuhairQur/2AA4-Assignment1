@@ -27,10 +27,8 @@ public class Configuration {
      * to follow the instructions. Otherwise, the walker is configured to navigate the maze freely.
      * @return the configured walker object
      */
+    
     public Walker getConfiguredWalker(Maze maze) {
-        // Coordinates walkerStartCoords = maze.getStartCoords().copy();
-        // CoordinatesManager coordinatesManager = new CoordinatesManager(walkerStartCoords, Direction.RIGHT);
-
         if (this.userInstructions != null) {
             return new InstructedWalker(maze, this.userInstructions);
         }

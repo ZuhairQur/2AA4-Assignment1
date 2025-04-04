@@ -10,6 +10,7 @@ package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 import ca.mcmaster.se2aa4.mazerunner.Coordinates;
 import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
 import ca.mcmaster.se2aa4.mazerunner.Direction;
+import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
 import ca.mcmaster.se2aa4.mazerunner.InstructionCleaner;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
@@ -39,13 +40,10 @@ public class InstructedWalker implements Walker {
     public String walk() {
  
         this.instructions = InstructionCleaner.getUnfactoredInstructions(instructions);
-        Coordinates leftEntrance = this.maze.getStartCoords();
-        Coordinates rightEntrance = this.maze.getEndCoords();
+        Coordinates leftEntrance = this.maze.getLeftOpening();
+        Coordinates rightEntrance = this.maze.getRightOpening();
 
-        boolean foundExit = 
-            findExit(leftEntrance, rightEntrance, Direction.RIGHT) 
-            || 
-            findExit(rightEntrance, leftEntrance, Direction.LEFT);
+        boolean foundExit = findExit(leftEntrance, rightEntrance, Direction.RIGHT) || findExit(rightEntrance, leftEntrance, Direction.LEFT);
 
         if (!foundExit) {
             return "incorrect path";
@@ -54,33 +52,19 @@ public class InstructedWalker implements Walker {
         return "correct path";
     }
 
-    private boolean findExit(Coordinates startCoords, Coordinates endCoords, Direction startDirection) {
-        CoordinatesTracker coordinatesManager = new CoordinatesTracker(startCoords.copy(), startDirection);
-        // Coordinates coords = startCoords;
-        // this.direction = startDirection;
+    private boolean findExit(Coordinates startCoordinates, Coordinates endCoordinates, Direction startDirection) {
+        CoordinatesTracker coordinatesTracker = new CoordinatesTracker(startCoordinates.copy());
+        DirectionManager directionManager = new DirectionManager(startDirection);
 
-        for (int i = 0; i < this.instructions.length(); i++) {
-            char currentInstruction = this.instructions.charAt(i);
+        MovementList movementList = new MovementList(this.instructions);
+        movementList.generateMovements(coordinatesTracker, directionManager, this.maze);
 
-            System.out.println();
-            if (currentInstruction == 'F') {
-                coordinatesManager.moveForward();
-                    
-                if (coordinatesManager.reachedEnd(endCoords)) {
-                    return true; 
-                }
+        while (!movementList.isEmpty()) {
+            Movement currentMovement = movementList.nextMovement();
+            currentMovement.execute();
 
-                try {
-                    if (coordinatesManager.hitWall(this.maze)) {
-                        coordinatesManager.stepBack();
-                    }                  
-                } catch (IndexOutOfBoundsException e) {
-                    coordinatesManager.stepBack();
-                }               
-            } else if (currentInstruction == 'L') {
-                coordinatesManager.turnLeft();
-            } else if (currentInstruction == 'R') {
-                coordinatesManager.turnRight();
+            if (coordinatesTracker.reachedEnd(endCoordinates)) {
+                return true;
             }
         }
 

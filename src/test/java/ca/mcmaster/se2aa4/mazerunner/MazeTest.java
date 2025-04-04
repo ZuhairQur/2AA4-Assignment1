@@ -32,7 +32,7 @@ public class MazeTest {
      */
     @Test
     public void testStartCoordinates() {
-        boolean equivalent = new Coordinates(21, 0).equals(maze.getStartCoords());
+        boolean equivalent = new Coordinates(21, 0).equals(maze.getLeftOpening());
         assertTrue(equivalent);
     }
 
@@ -43,7 +43,7 @@ public class MazeTest {
      */
     @Test
     public void testEndCoordinates() {
-        boolean equivalent =  new Coordinates(53, 150).equals(maze.getEndCoords()); 
+        boolean equivalent =  new Coordinates(53, 150).equals(maze.getRightOpening()); 
         assertTrue(equivalent);
     }
 }
