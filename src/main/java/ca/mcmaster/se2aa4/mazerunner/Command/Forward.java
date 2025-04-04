@@ -43,7 +43,7 @@ public class Forward implements Movement {
                 this.successful = false;
             }                  
         } catch (IndexOutOfBoundsException e) {
-            coordinatesTracker.move(currentDirection);
+            coordinatesTracker.retreat(currentDirection);
         }
         
         return this.successful; 

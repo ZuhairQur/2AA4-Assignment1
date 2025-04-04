@@ -25,7 +25,6 @@ public class LeftTurn implements Movement {
  */
     @Override
     public boolean execute() {
-        System.out.println("PRANTING DIRECTION: "+ directionManager.getDirection());
         directionManager.turnLeft();
         return this.successful;
     }

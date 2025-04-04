@@ -10,7 +10,6 @@
 
 package ca.mcmaster.se2aa4.mazerunner.Maze;
 
-import ca.mcmaster.se2aa4.mazerunner.MazeBlock;
 import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
 
 public class Maze {
