@@ -3,6 +3,8 @@ package ca.mcmaster.se2aa4.mazerunner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.Setup.InstructionCleaner;
+
 public class InstructionCleanerTest {
     
     /**

@@ -1,4 +1,12 @@
-package ca.mcmaster.se2aa4.mazerunner;
+/**
+ * File: Coordinates.java
+ * Author: Zuhair Qureshi
+ * Description: This class represents a point in a 2D coordinate system with x and y values. 
+ * It provides methods to get and set the x and y coordinates, perform vector addition and subtraction, 
+ * create copies of coordinate objects, and check for equality between two coordinates.
+ */
+
+package ca.mcmaster.se2aa4.mazerunner.Navigation;
 
 public class Coordinates {
     private int x;
@@ -50,7 +58,6 @@ public class Coordinates {
     public Coordinates add(Coordinates coordinates) {
         return new Coordinates(this.x + coordinates.getX(), this.y + coordinates.getY());
     }
-
     
     /**
      * Returns a new Coordinates object which is the vector difference of this object and

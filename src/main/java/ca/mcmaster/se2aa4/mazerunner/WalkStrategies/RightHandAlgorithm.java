@@ -1,9 +1,20 @@
+/**
+ * File: RightHandAlgorithm.java
+ * Author: Zuhair Qureshi
+ * Description: This class implements the MazeSolvingAlgorithm interface and provides 
+ * the right-hand rule for solving the maze. 
+ */
+
+
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
-import ca.mcmaster.se2aa4.mazerunner.Coordinates;
-import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
-import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
-import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Command.Forward;
+import ca.mcmaster.se2aa4.mazerunner.Command.LeftTurn;
+import ca.mcmaster.se2aa4.mazerunner.Command.RightTurn;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
 
 public class RightHandAlgorithm  implements MazeSolvingAlgorithm {
     
@@ -25,7 +36,6 @@ public class RightHandAlgorithm  implements MazeSolvingAlgorithm {
             boolean successful = new Forward(coordinatesTracker, directionManager, maze).execute();
 
             // Did not hit wall
-
             if (successful) {
                 instructions.append("F");
 

@@ -7,23 +7,23 @@
 
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
-import ca.mcmaster.se2aa4.mazerunner.Coordinates;
-import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
-import ca.mcmaster.se2aa4.mazerunner.InstructionCleaner;
-import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Command.Movement;
+import ca.mcmaster.se2aa4.mazerunner.Command.MovementList;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Direction;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
+import ca.mcmaster.se2aa4.mazerunner.Setup.InstructionCleaner;
 
 public class InstructedWalker implements Walker {
 
     private String instructions;
     private Maze maze;
-    private boolean attemptedBothEnds;
 
     public InstructedWalker(Maze maze, String instructions) {
         this.maze = maze;
         this.instructions = instructions;
-        this.attemptedBothEnds = false;
     }
 
     /**
@@ -52,6 +52,13 @@ public class InstructedWalker implements Walker {
         return "correct path";
     }
 
+    /**
+     * Finds the exit of the maze given the start coordinates and direction by executing the instructions.
+     * @param startCoordinates the coordinates to start the walker at
+     * @param endCoordinates the coordinates of the exit
+     * @param startDirection the direction to start the walker facing
+     * @return true if the walker successfully escapes the maze, false otherwise
+     */
     private boolean findExit(Coordinates startCoordinates, Coordinates endCoordinates, Direction startDirection) {
         CoordinatesTracker coordinatesTracker = new CoordinatesTracker(startCoordinates.copy());
         DirectionManager directionManager = new DirectionManager(startDirection);

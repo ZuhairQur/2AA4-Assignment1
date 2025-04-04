@@ -1,9 +1,18 @@
-package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
+/**
+ * File: Forward.java
+ * Author: Zuhair Qureshi
+ * Description: This class represents the forward movement strategy for the walker 
+ * in the maze. It implements the Movement interface and provides the functionality 
+ * to move the walker one step forward in the maze. The movement is only executed 
+ * if there is no wall in the walker’s path or the walker does not go out of bounds. 
+ */
 
-import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
-import ca.mcmaster.se2aa4.mazerunner.Maze;
+package ca.mcmaster.se2aa4.mazerunner.Command;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Direction;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
 
 public class Forward implements Movement {
     private CoordinatesTracker coordinatesTracker;

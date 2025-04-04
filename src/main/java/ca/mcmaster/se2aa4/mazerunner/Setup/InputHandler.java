@@ -2,12 +2,12 @@
  * File: InputHandler.java
  * Author: Zuhair Qureshi
  * Description: Defines the InputHandler class for the Maze Runner Application.
- * Responsible for parsing command-line arguments, reading and processing maze data 
- * from an input file, handling command-line options for specifying maze files and optional instructions.
- * Also provides methods to retrieve parsed input data and check for instruction flags.
+ * Responsible for parsing command-line arguments, handling command-line options 
+ * for specifying maze files and optional instructions. Also provides methods to 
+ * retrieve parsed input data and check for instruction flags.
  **/
 
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Setup;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +32,6 @@ public class InputHandler {
     }
 
     /**
-     * Configures the command-line options for the application.
-     * 
      * This method sets up the available options for parsing command-line arguments.
      * It forces specifying an input file containing the maze using the '-i' flag
      * option and an optional path of instructions to follow through the maze using the '-p'

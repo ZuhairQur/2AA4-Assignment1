@@ -9,6 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.Maze.MazeBlock;
+import ca.mcmaster.se2aa4.mazerunner.Setup.InputHandler;
+import ca.mcmaster.se2aa4.mazerunner.Setup.MazeReader;
+
 public class InputHandlerTest {
     private InputHandler inputHandler;
 

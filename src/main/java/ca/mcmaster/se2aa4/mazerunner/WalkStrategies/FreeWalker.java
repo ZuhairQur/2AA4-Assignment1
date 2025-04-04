@@ -7,12 +7,12 @@
  */
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
-import ca.mcmaster.se2aa4.mazerunner.Coordinates;
-import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
-import ca.mcmaster.se2aa4.mazerunner.InstructionCleaner;
-import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Direction;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
+import ca.mcmaster.se2aa4.mazerunner.Setup.InstructionCleaner;
 
 public class FreeWalker implements Walker {
     private MazeSolvingAlgorithm algorithm;
@@ -35,7 +35,7 @@ public class FreeWalker implements Walker {
         Coordinates walkerStartingPosition = this.maze.getLeftOpening().copy();
         CoordinatesTracker coordinatesTracker = new CoordinatesTracker(walkerStartingPosition);
         DirectionManager directionManager = new DirectionManager(Direction.RIGHT);
-        
+
         String walkingInstructions = algorithm.solveMaze(coordinatesTracker, directionManager, this.maze);
         String cleanInstructions = InstructionCleaner.getFactoredInstructions(walkingInstructions);
         return cleanInstructions;

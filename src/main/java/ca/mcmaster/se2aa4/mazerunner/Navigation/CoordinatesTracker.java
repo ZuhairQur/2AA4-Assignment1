@@ -1,8 +1,19 @@
-package ca.mcmaster.se2aa4.mazerunner;
+/**
+ * File: CoordinatesTracker.java
+ * Author: Zuhair Qureshi
+ * Description: This class tracks the position of the walker in the maze using coordinates. 
+ * It provides methods to move the walker, check if the walker has hit a wall or reached the end, 
+ * and check if the walker can pass through an adjacent space. 
+ */
 
+
+package ca.mcmaster.se2aa4.mazerunner.Navigation;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Maze.MazeBlock;
 
 public class CoordinatesTracker {
     private Coordinates coordinates;

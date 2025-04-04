@@ -1,4 +1,12 @@
-package ca.mcmaster.se2aa4.mazerunner;
+/**
+ * File: DirectionManager.java
+ * Author: Zuhair Qureshi
+ * Description: This class manages the direction of the walker in the maze. 
+ * It provides methods to get the current direction, determine the directions 
+ * to the left and right of the current direction, and to turn the walker left or right.
+ */
+
+package ca.mcmaster.se2aa4.mazerunner.Navigation;
 
 public class DirectionManager {
     private Direction direction;

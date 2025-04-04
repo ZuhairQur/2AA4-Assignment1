@@ -1,10 +1,22 @@
-package ca.mcmaster.se2aa4.mazerunner;
+/**
+ * File: MazeReader.java
+ * Author: Zuhair Qureshi
+ * Description: This class reads a maze file and converts its contents into a Maze object. 
+ * It also validates the maze structure, and represents it as a 2D array of MazeBlock enums. 
+ * The class handles invalid characters and ensures the maze has a consistent width across 
+ * all lines.
+ */
+
+package ca.mcmaster.se2aa4.mazerunner.Setup;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Maze.MazeBlock;
 
 public class MazeReader {
     private String filename;
@@ -31,7 +43,7 @@ public class MazeReader {
      * @return a 2D array of MazeBlock enums representing the maze structure
      * @throws IOException if the file is not found or does not contain a valid maze
      */
-    protected MazeBlock[][] readMaze() throws IOException {
+    public MazeBlock[][] readMaze() throws IOException {
         Path path = Path.of(filename);
         int totalLineCount = (int) Files.lines(path).count();     
         MazeBlock[][] contents = new MazeBlock[totalLineCount][];

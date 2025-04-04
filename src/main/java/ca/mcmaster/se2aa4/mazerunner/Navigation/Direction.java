@@ -4,7 +4,7 @@
  * Description: This enum defines the four cardinal directions used for 
  * navigation within the maze-solving application.
  */
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Navigation;
 
 public enum Direction {
     UP, RIGHT, DOWN, LEFT;

@@ -1,11 +1,21 @@
-package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
+/**
+ * File: MovementList.java
+ * Author: Zuhair Qureshi
+ * Description: This class represents a list of movements for the walker in the maze. 
+ * It stores a sequence of movement instructions (such as forward, left turn, or right turn) 
+ * and generates corresponding movement objects based on the provided instructions. 
+ * It also contains functionality for retrieving these commands.
+ */
+
+
+package ca.mcmaster.se2aa4.mazerunner.Command;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
-import ca.mcmaster.se2aa4.mazerunner.DirectionManager;
-import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.DirectionManager;
 
 public class MovementList {
     private String instructions;

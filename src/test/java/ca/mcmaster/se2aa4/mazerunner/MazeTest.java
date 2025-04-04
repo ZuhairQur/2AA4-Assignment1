@@ -7,6 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.Setup.InputHandler;
+import ca.mcmaster.se2aa4.mazerunner.Setup.MazeReader;
+
 public class MazeTest {
 
     private InputHandler inputHandler;

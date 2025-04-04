@@ -4,13 +4,14 @@
  * Description: This class represents the maze structure, including its layout and
  * key coordinates such as start and end points. Its responsibilities include:
  * storing the maze structure as a 2D character array, identifying and setting 
- * the starting and ending coordinates of the maze dynamically, and providing methods 
- * to retrieve specific blocks and key coordinates within the maze.
+ * the entries to the maze, and providing methods to retrieve specific blocks within 
+ * the maze.
  */
 
+package ca.mcmaster.se2aa4.mazerunner.Maze;
 
-package ca.mcmaster.se2aa4.mazerunner;
-
+import ca.mcmaster.se2aa4.mazerunner.MazeBlock;
+import ca.mcmaster.se2aa4.mazerunner.Navigation.Coordinates;
 
 public class Maze {
     private final MazeBlock[][] maze;

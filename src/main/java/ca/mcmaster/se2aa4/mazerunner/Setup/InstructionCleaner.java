@@ -9,8 +9,7 @@
  * parsing and execution by Walker objects.
  */
 
-
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Setup;
 
 public class InstructionCleaner {
     
