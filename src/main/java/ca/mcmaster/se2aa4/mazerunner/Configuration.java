@@ -28,13 +28,14 @@ public class Configuration {
      * @return the configured walker object
      */
     public Walker getConfiguredWalker(Maze maze) {
-        Coordinates walkerStartCoords = maze.getStartCoords().copy();
+        // Coordinates walkerStartCoords = maze.getStartCoords().copy();
+        // CoordinatesManager coordinatesManager = new CoordinatesManager(walkerStartCoords, Direction.RIGHT);
 
         if (this.userInstructions != null) {
-            return new InstructedWalker(walkerStartCoords, maze, this.userInstructions);
+            return new InstructedWalker(maze, this.userInstructions);
         }
 
         MazeSolvingAlgorithm algorithm = new RightHandAlgorithm();
-        return new FreeWalker(walkerStartCoords, maze, algorithm);
+        return new FreeWalker(maze, algorithm);
     }
 }

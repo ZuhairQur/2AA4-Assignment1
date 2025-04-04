@@ -8,16 +8,19 @@
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
 import ca.mcmaster.se2aa4.mazerunner.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
 import ca.mcmaster.se2aa4.mazerunner.Direction;
+import ca.mcmaster.se2aa4.mazerunner.InstructionCleaner;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
-public class InstructedWalker extends Walker {
+public class InstructedWalker implements Walker {
 
     private String instructions;
+    private Maze maze;
     private boolean attemptedBothEnds;
 
-    public InstructedWalker(Coordinates coords, Maze maze, String instructions) {
-        super(coords, maze);
+    public InstructedWalker(Maze maze, String instructions) {
+        this.maze = maze;
         this.instructions = instructions;
         this.attemptedBothEnds = false;
     }
@@ -35,13 +38,12 @@ public class InstructedWalker extends Walker {
     @Override
     public String walk() {
  
-        this.instructions = this.instructionCleaner.getUnfactoredInstructions(instructions);
-        Coordinates leftEntrance = this.maze.getStartCoords().copy();
-        Coordinates rightEntrance = this.maze.getEndCoords().copy();
-
+        this.instructions = InstructionCleaner.getUnfactoredInstructions(instructions);
+        Coordinates leftEntrance = this.maze.getStartCoords();
+        Coordinates rightEntrance = this.maze.getEndCoords();
 
         boolean foundExit = 
-            findExit(this.coords, rightEntrance, Direction.RIGHT) 
+            findExit(leftEntrance, rightEntrance, Direction.RIGHT) 
             || 
             findExit(rightEntrance, leftEntrance, Direction.LEFT);
 
@@ -53,31 +55,32 @@ public class InstructedWalker extends Walker {
     }
 
     private boolean findExit(Coordinates startCoords, Coordinates endCoords, Direction startDirection) {
-        this.coords = startCoords;
-        this.direction = startDirection;
+        CoordinatesTracker coordinatesManager = new CoordinatesTracker(startCoords.copy(), startDirection);
+        // Coordinates coords = startCoords;
+        // this.direction = startDirection;
 
         for (int i = 0; i < this.instructions.length(); i++) {
             char currentInstruction = this.instructions.charAt(i);
 
             System.out.println();
             if (currentInstruction == 'F') {
-                this.moveForward();
+                coordinatesManager.moveForward();
                     
-                if (this.coords.equals(endCoords)) {
+                if (coordinatesManager.reachedEnd(endCoords)) {
                     return true; 
                 }
 
                 try {
-                    if (this.hitWall()) {
-                        this.stepBack();
+                    if (coordinatesManager.hitWall(this.maze)) {
+                        coordinatesManager.stepBack();
                     }                  
                 } catch (IndexOutOfBoundsException e) {
-                    this.stepBack();
+                    coordinatesManager.stepBack();
                 }               
             } else if (currentInstruction == 'L') {
-                this.turnLeft();
+                coordinatesManager.turnLeft();
             } else if (currentInstruction == 'R') {
-                this.turnRight();
+                coordinatesManager.turnRight();
             }
         }
 

@@ -7,31 +7,33 @@
  */
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
-import ca.mcmaster.se2aa4.mazerunner.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Direction;
+import ca.mcmaster.se2aa4.mazerunner.InstructionCleaner;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
-public class FreeWalker extends Walker {
+public class FreeWalker implements Walker {
     private MazeSolvingAlgorithm algorithm;
+    private Maze maze;
 
-    public FreeWalker(Coordinates coords, Maze maze, MazeSolvingAlgorithm algorithm) {
-        super(coords, maze);
+    public FreeWalker(Maze maze, MazeSolvingAlgorithm algorithm) {
+        this.maze = maze;
         this.algorithm = algorithm;
     }
-
 
 /**
  * This method moves the walker through the maze with an interface algorithm, appending
  * the instruction each time a move is made, until the walker escapes
- * the maze. It records the path taken and returns a factored 
- * instruction string representing the sequence of movements.
- *
+ * the maze. It records the path taken.
  * @param maze the maze to be navigated
  * @return a string representing the factored path taken to exit the maze
  */
     @Override
     public String walk() {
-        String walkingInstructions = algorithm.solveMaze(this);
-        String cleanInstructions = this.instructionCleaner.getFactoredInstructions(walkingInstructions);
+        CoordinatesTracker coordinatesTracker = new CoordinatesTracker(this.maze.getStartCoords(), Direction.RIGHT);
+
+        String walkingInstructions = algorithm.solveMaze(coordinatesTracker, this.maze);
+        String cleanInstructions = InstructionCleaner.getFactoredInstructions(walkingInstructions);
         return cleanInstructions;
     }
 }

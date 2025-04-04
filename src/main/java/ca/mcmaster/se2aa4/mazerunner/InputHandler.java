@@ -69,8 +69,7 @@ public class InputHandler {
     public String getInstructions(String [] args) throws ParseException {
         this.command = parser.parse(options, args);
         if (this.command.hasOption("p")) {
-            InstructionCleaner instructionCleaner = new InstructionCleaner();
-            this.instructions = instructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
+            this.instructions = InstructionCleaner.getUnfactoredInstructions(this.command.getOptionValue("p"));
 
             if (!this.hasValidInstructions()) {
                 throw new IllegalArgumentException("Path contains instructions that are not canonical ('F', 'L', 'R').");

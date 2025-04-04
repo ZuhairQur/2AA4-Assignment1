@@ -7,6 +7,9 @@
  */
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
+import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Maze;
+
 public interface MazeSolvingAlgorithm {
-    public abstract String solveMaze(Walker walker);
+    public abstract String solveMaze(CoordinatesTracker coordinatesManager, Maze maze);
 }

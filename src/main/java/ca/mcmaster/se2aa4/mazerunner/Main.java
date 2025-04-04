@@ -35,7 +35,6 @@ public class Main {
 
         // Setting up walking skeleton and executing
         try {
-
             MazeReader mazeReader = new MazeReader(inputHandler.getFilename(args));
             Configuration configuration = new Configuration(inputHandler.getInstructions(args));
             Maze maze = mazeReader.getMaze();

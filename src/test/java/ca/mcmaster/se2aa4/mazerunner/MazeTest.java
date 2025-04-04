@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 public class MazeTest {
 
-    private Configuration config;
     private InputHandler inputHandler;
     private Maze maze;
 

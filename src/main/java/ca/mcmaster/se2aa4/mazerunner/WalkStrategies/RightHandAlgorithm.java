@@ -1,5 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner.WalkStrategies;
 
+import ca.mcmaster.se2aa4.mazerunner.Coordinates;
+import ca.mcmaster.se2aa4.mazerunner.CoordinatesTracker;
+import ca.mcmaster.se2aa4.mazerunner.Maze;
+
 public class RightHandAlgorithm  implements MazeSolvingAlgorithm{
     
     /**
@@ -10,26 +14,28 @@ public class RightHandAlgorithm  implements MazeSolvingAlgorithm{
      * @return the instructions for the walker to follow to reach the end of the maze
      */
     @Override
-    public String solveMaze(Walker walker) {
+    public String solveMaze(CoordinatesTracker coordinatesManager, Maze maze) {
         StringBuilder instructions = new StringBuilder();
 
-        while (!walker.reachedEnd()) {
-            walker.moveForward();
+        Coordinates exitCoordinates = maze.getEndCoords();
+
+        while (!coordinatesManager.reachedEnd(exitCoordinates)) {
+            coordinatesManager.moveForward();
 
             try {
-                if (walker.hitWall()) {
-                    walker.stepBack();
-                    walker.turnLeft();
+                if (coordinatesManager.hitWall(maze)) {
+                    coordinatesManager.stepBack();
+                    coordinatesManager.turnLeft();
                     instructions.append("L");
                 } else {
                     instructions.append("F");
                 }                  
             } catch (IndexOutOfBoundsException e) {
-                walker.stepBack();
+                coordinatesManager.stepBack();
             }
 
-            if (!walker.hasWallOnRight()) {
-                walker.turnRight();
+            if (!coordinatesManager.hasWallOnRight(maze)) {
+                coordinatesManager.turnRight();
                 instructions.append("R");
             }
         }
